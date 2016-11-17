@@ -22,8 +22,20 @@ namespace indice.Edi
     /// </summary>
     public class EdiPathComparer : IComparer<EdiPath>
     {
+		/// <summary>
+		/// The segment order.
+		/// </summary>
         private readonly List<string> segmentOrder;
+		/// <summary>
+		/// The index of the custom segment.
+		/// </summary>
         private readonly int customSegmentIndex;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:indice.Edi.EdiPathComparer"/> class.
+		/// </summary>
+		/// <param name="grammar">Grammar.</param>
+		/// <exception cref="ArgumentNullException">If grammar is null</exception>
         public EdiPathComparer(IEdiGrammar grammar) {
             if (null == grammar)
                 throw new ArgumentNullException(nameof(grammar));
@@ -44,7 +56,14 @@ namespace indice.Edi
             }
         }
         
-        public int Compare(EdiPath x, EdiPath y) {
+		#region implementation of IComparer<EdiPath>
+        /// <summary>
+        /// Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
+        /// </summary>
+        /// <param name="x">The first object to compare.</param>
+        /// <param name="y">The second object to compare.</param>
+		/// <returns>A signed integer that indicates the relative values of x and y.</returns>
+		public int Compare(EdiPath x, EdiPath y) {
             if (x.Segment != y.Segment) { 
                 var i = Rank(x);
                 var j = Rank(y);
@@ -52,7 +71,14 @@ namespace indice.Edi
             }
             return x.CompareTo(y);
         }
+		#endregion
 
+		/// <summary>
+		/// Rank the specified path.
+		/// </summary>
+		/// <remarks>Needed for the implementation of IComparer</remarks>
+		/// <param name="path">Path to rank.</param>
+		/// <returns>The rank of the given path to the current <see cref="IEdiGrammar"/>.</returns>
         public int Rank(EdiPath path) {
             var i = segmentOrder.IndexOf(path.Segment);
             i = i > -1 ? i : customSegmentIndex;

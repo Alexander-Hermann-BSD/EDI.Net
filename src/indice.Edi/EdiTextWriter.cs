@@ -16,10 +16,22 @@ namespace indice.Edi
     /// </summary>
     public class EdiTextWriter : EdiWriter
     {
+		/// <summary>
+		/// The writer.
+		/// </summary>
         private readonly TextWriter _writer;
-        private readonly bool[] _charEscapeFlags;
-        private char[] _writeBuffer;
-        private IArrayPool<char> _arrayPool;
+        /// <summary>
+        /// The char escape flags.
+        /// </summary>
+		private readonly bool[] _charEscapeFlags;
+        /// <summary>
+        /// The write buffer.
+        /// </summary>
+		private char[] _writeBuffer;
+        /// <summary>
+        /// The array pool.
+        /// </summary>
+		private IArrayPool<char> _arrayPool;
 
         /// <summary>
         /// Gets or sets the writer's character array pool.
@@ -95,6 +107,9 @@ namespace indice.Edi
             WriteSegmentNameDelimiter();
         }
 
+		/// <summary>
+		/// Writes the segment terminator.
+		/// </summary>
         public override void WriteSegmentTerminator() {
             _writer.Write(Grammar.SegmentTerminator); 
             if (Formatting == Formatting.LinePerSegment) {
@@ -102,18 +117,30 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Writes the component delimiter.
+		/// </summary>
         protected override void WriteComponentDelimiter() {
             _writer.Write(Grammar.ComponentDataElementSeparator);
         }
 
+		/// <summary>
+		/// Writes the element delimiter.
+		/// </summary>
         protected override void WriteElementDelimiter() {
             _writer.Write(Grammar.DataElementSeparator);
         }
 
+		/// <summary>
+		/// Writes the segment name delimiter.
+		/// </summary>
         protected override void WriteSegmentNameDelimiter() {
             _writer.Write(Grammar.SegmentNameDelimiter);
         }
 
+		/// <summary>
+		/// Writes the new line.
+		/// </summary>
         protected override void WriteNewLine() {
             _writer.WriteLine();
         }
@@ -154,6 +181,10 @@ namespace indice.Edi
             WriteEscapedString(value);
         }
 
+		/// <summary>
+		/// Writes the escaped string.
+		/// </summary>
+		/// <param name="value">Value.</param>
         private void WriteEscapedString(string value) {
             EnsureWriteBuffer();
             var bufferPool = _arrayPool;
@@ -421,6 +452,9 @@ namespace indice.Edi
         }
         #endregion
 
+		/// <summary>
+		/// Ensures the write buffer.
+		/// </summary>
         private void EnsureWriteBuffer() {
             if (_writeBuffer == null) {
                 // maximum buffer sized used when writing iso date
@@ -428,6 +462,11 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Writes the integer value.
+		/// </summary>
+		/// <param name="value">Value.</param>
+		/// <param name="picture">Picture.</param>
         private void WriteIntegerValue(long value, Picture? picture) {
             if (value >= 0 && value <= 9) {
                 _writer.Write((char)('0' + value));
@@ -442,6 +481,11 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Writes the integer value.
+		/// </summary>
+		/// <param name="uvalue">Uvalue.</param>
+		/// <param name="picture">Picture.</param>
         private void WriteIntegerValue(ulong uvalue, Picture? picture) {
             if (uvalue <= 9) {
                 _writer.Write((char)('0' + uvalue));

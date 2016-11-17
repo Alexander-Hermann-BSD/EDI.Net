@@ -56,6 +56,14 @@ namespace indice.Edi
         {
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:indice.Edi.EdiReaderException"/> class.
+		/// </summary>
+		/// <param name="message">Message.</param>
+		/// <param name="innerException">Inner exception.</param>
+		/// <param name="path">Path.</param>
+		/// <param name="lineNumber">Line number.</param>
+		/// <param name="linePosition">Line position.</param>
         internal EdiReaderException(string message, Exception innerException, string path, int lineNumber, int linePosition)
             : base(message, innerException)
         {
@@ -64,15 +72,33 @@ namespace indice.Edi
             LinePosition = linePosition;
         }
 
+		/// <summary>
+		/// Create the specified reader and message.
+		/// </summary>
+		/// <param name="reader">Reader.</param>
+		/// <param name="message">Message.</param>
         internal static EdiReaderException Create(EdiReader reader, string message)
         {
             return Create(reader, message, null);
         }
 
+		/// <summary>
+		/// Create the specified reader, message and ex.
+		/// </summary>
+		/// <param name="reader">Reader.</param>
+		/// <param name="message">Message.</param>
+		/// <param name="ex">Ex.</param>
         internal static EdiReaderException Create(EdiReader reader, string message, Exception ex) {
             return Create(reader as IEdiLineInfo, reader.Path, message, ex);
         }
 
+		/// <summary>
+		/// Create the specified lineInfo, path, message and ex.
+		/// </summary>
+		/// <param name="lineInfo">Line info.</param>
+		/// <param name="path">Path.</param>
+		/// <param name="message">Message.</param>
+		/// <param name="ex">Ex.</param>
         internal static EdiReaderException Create(IEdiLineInfo lineInfo, string path, string message, Exception ex)
         {
             message = EdiPosition.FormatMessage(lineInfo, path, message);

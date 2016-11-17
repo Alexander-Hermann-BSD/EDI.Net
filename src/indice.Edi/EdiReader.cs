@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace indice.Edi
 {
+	/// <summary>
+	/// Abstract Edi reader. Implements <see cref="IDisposable"/>.
+	/// </summary>
     public abstract class EdiReader : IDisposable
     {
         #region Reader State
@@ -81,16 +84,45 @@ namespace indice.Edi
         }
         #endregion
 
-        // current Token data
+		/// <summary>
+		/// current Token data
+		/// </summary>
         EdiToken _tokenType;
+		/// <summary>
+		/// current state
+		/// </summary>
         internal State _currentState;
+		/// <summary>
+		/// The culture to use
+		/// </summary>
         private CultureInfo _culture;
+		/// <summary>
+		/// The grammar.
+		/// </summary>
         private readonly IEdiGrammar _grammar;
+		/// <summary>
+		/// The value.
+		/// </summary>
         private object _value;
+		/// <summary>
+		/// The current position.
+		/// </summary>
         private EdiPosition _currentPosition;
+		/// <summary>
+		/// The stack.
+		/// </summary>
         private readonly List<EdiPosition> _stack;
+		/// <summary>
+		/// The max depth.
+		/// </summary>
         private int? _maxDepth;
+		/// <summary>
+		/// Is an exceeded max depth available?
+		/// </summary>
         private bool _hasExceededMaxDepth;
+		/// <summary>
+		/// The path.
+		/// </summary>
         private string _Path;
 
         /// <summary>
@@ -175,6 +207,10 @@ namespace indice.Edi
         }
 
         #region EDI Logical Structure
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="T:indice.Edi.EdiReader"/> is service string advice.
+		/// </summary>
+		/// <value><c>true</c> if is service string advice; otherwise, <c>false</c>.</value>
         protected bool IsServiceStringAdvice {
             get {
                 return Grammar.ServiceStringAdviceTag != null && 
@@ -182,49 +218,71 @@ namespace indice.Edi
                        _currentPosition.SegmentName == Grammar.ServiceStringAdviceTag;
             }
         }
-
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="T:indice.Edi.EdiReader"/> is start interchange.
+		/// </summary>
+		/// <value><c>true</c> if is start interchange; otherwise, <c>false</c>.</value>
         public bool IsStartInterchange {
             get {
                 return TokenType == EdiToken.SegmentName && 
                        _currentPosition.SegmentName == Grammar.InterchangeHeaderTag;
             }
         }
-        
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="T:indice.Edi.EdiReader"/> is end interchange.
+        /// </summary>
+        /// <value><c>true</c> if is end interchange; otherwise, <c>false</c>.</value>
         public bool IsEndInterchange {
             get {
                 return TokenType == EdiToken.SegmentName &&
                        _currentPosition.SegmentName == Grammar.InterchangeTrailerTag;
             }
         }
-
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="T:indice.Edi.EdiReader"/> is start group.
+		/// </summary>
+		/// <value><c>true</c> if is start group; otherwise, <c>false</c>.</value>
         public bool IsStartGroup {
             get {
                 return TokenType == EdiToken.SegmentName &&
                        _currentPosition.SegmentName == Grammar.FunctionalGroupHeaderTag;
             }
         }
-
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="T:indice.Edi.EdiReader"/> is end group.
+		/// </summary>
+		/// <value><c>true</c> if is end group; otherwise, <c>false</c>.</value>
         public bool IsEndGroup {
             get {
                 return TokenType == EdiToken.SegmentName &&
                        _currentPosition.SegmentName == Grammar.FunctionalGroupTrailerTag;
             }
         }
-
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="T:indice.Edi.EdiReader"/> is start message.
+		/// </summary>
+		/// <value><c>true</c> if is start message; otherwise, <c>false</c>.</value>
         public bool IsStartMessage {
             get {
                 return TokenType == EdiToken.SegmentName &&
                        _currentPosition.SegmentName == Grammar.MessageHeaderTag;
             }
         }
-
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="T:indice.Edi.EdiReader"/> is end message.
+		/// </summary>
+		/// <value><c>true</c> if is end message; otherwise, <c>false</c>.</value>
         public bool IsEndMessage {
             get {
                 return TokenType == EdiToken.SegmentName &&
                        _currentPosition.SegmentName == Grammar.MessageTrailerTag;
             }
         }
-
+		/// <summary>
+		/// Checks the inside segment.
+		/// </summary>
+		/// <returns><c>true</c>, if inside segment was checked, <c>false</c> otherwise.</returns>
+		/// <param name="segmentName">Segment name.</param>
         public virtual bool CheckInsideSegment(string segmentName) {
             if (string.IsNullOrEmpty(segmentName)) {
                 throw new ArgumentNullException(nameof(segmentName));
@@ -247,7 +305,10 @@ namespace indice.Edi
             _stack = new List<EdiPosition>(4);
             _maxDepth = 5; // SEGMENT/ELEMENT/COMPONENT/VALUE
         }
-
+		/// <summary>
+		/// Gets the current path.
+		/// </summary>
+		/// <returns>The current path.</returns>
         private string GetCurrentPath() {
             if (_currentPosition.Type == EdiContainerType.None)
                 return string.Empty;
@@ -260,7 +321,10 @@ namespace indice.Edi
 
             return EdiPosition.BuildPath(positions);
         }
-
+		/// <summary>
+		/// Push the specified value.
+		/// </summary>
+		/// <param name="value">Value.</param>
         private void Push(EdiContainerType value) {
             if (_currentPosition.Type == EdiContainerType.None) {
                 _currentPosition = new EdiPosition(value);
@@ -275,7 +339,9 @@ namespace indice.Edi
                 }
             }
         }
-
+		/// <summary>
+		/// Pop this instance.
+		/// </summary>
         private EdiContainerType Pop() {
             EdiPosition oldPosition;
             if (_stack.Count > 0) {
@@ -306,7 +372,9 @@ namespace indice.Edi
                 }
             }
         }
-
+		/// <summary>
+		/// Peek this instance.
+		/// </summary>
         private EdiContainerType Peek() {
             return _currentPosition.Type;
         }
@@ -343,11 +411,18 @@ namespace indice.Edi
         public abstract DateTime? ReadAsDateTime();
 
         #region Read Internal Methods
-
+		/// <summary>
+		/// Reads the internal.
+		/// </summary>
+		/// <returns><c>true</c>, if internal was  read, <c>false</c> otherwise.</returns>
         internal virtual bool ReadInternal() {
             throw new NotImplementedException();
         }
-        
+        /// <summary>
+        /// Reads as decimal internal.
+        /// </summary>
+        /// <returns>The as decimal internal.</returns>
+        /// <param name="picture">Picture.</param>
         internal decimal? ReadAsDecimalInternal(Picture? picture) {
             EdiToken t;
             if (!ReadInternal()) {
@@ -376,7 +451,10 @@ namespace indice.Edi
             }
             throw EdiReaderException.Create(this, "Error reading decimal. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, t));
         }
-
+		/// <summary>
+		/// Reads as int32 internal.
+		/// </summary>
+		/// <returns>The as int32 internal.</returns>
         internal int? ReadAsInt32Internal() {
             EdiToken t;
             if (!ReadInternal()) {
@@ -405,7 +483,10 @@ namespace indice.Edi
             }
             throw EdiReaderException.Create(this, "Error reading integer. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, TokenType));
         }
-
+		/// <summary>
+		/// Reads as string internal.
+		/// </summary>
+		/// <returns>The as string internal.</returns>
         internal string ReadAsStringInternal() {
             EdiToken t;
             if (!ReadInternal()) {
@@ -434,7 +515,10 @@ namespace indice.Edi
             }
             throw EdiReaderException.Create(this, "Error reading string. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, t));
         }
-
+		/// <summary>
+		/// Reads as date time internal.
+		/// </summary>
+		/// <returns>The as date time internal.</returns>
         internal DateTime? ReadAsDateTimeInternal() {
             if (!ReadInternal()) {
                 SetToken(EdiToken.None);
@@ -464,7 +548,11 @@ namespace indice.Edi
             throw EdiReaderException.Create(this, "Error reading date. Unexpected token: {0}.".FormatWith(CultureInfo.InvariantCulture, TokenType));
         } 
         #endregion
-
+		/// <summary>
+		/// Gets the position.
+		/// </summary>
+		/// <returns>The position.</returns>
+		/// <param name="depth">Depth.</param>
         internal EdiPosition GetPosition(int depth) {
             if (depth < _stack.Count)
                 return _stack[depth];
@@ -489,7 +577,12 @@ namespace indice.Edi
         protected void SetToken(EdiToken newToken, object value) {
             SetToken(newToken, value, true);
         }
-
+		/// <summary>
+		/// Sets the token.
+		/// </summary>
+		/// <param name="newToken">New token.</param>
+		/// <param name="value">Value.</param>
+		/// <param name="updateIndex">If set to <c>true</c> update index.</param>
         internal void SetToken(EdiToken newToken, object value, bool updateIndex) {
             _tokenType = newToken;
             _value = value;
@@ -550,21 +643,27 @@ namespace indice.Edi
             }
         } 
         #endregion
-
+		/// <summary>
+		/// Sets the state of the post value.
+		/// </summary>
         internal void SetPostValueState() {
             if (Peek() != EdiContainerType.None)
                 _currentState = State.PostValue;
             else
                 SetFinished();
         }
-
+		/// <summary>
+		/// Increments the position.
+		/// </summary>
         private void IncrementPosition() {
             if (_currentPosition.HasIndex) { 
                 _currentPosition.Position++;
             }
         }
 
-        
+        /// <summary>
+        /// Sets the finished.
+        /// </summary>
         private void SetFinished() {
             _currentState = State.Finished;
         }

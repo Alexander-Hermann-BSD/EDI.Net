@@ -74,7 +74,12 @@ namespace indice.Edi
         }
 
         #region Read internals
-
+		/// <summary>
+		/// Deserializes the internal.
+		/// </summary>
+		/// <returns>The internal.</returns>
+		/// <param name="reader">Reader.</param>
+		/// <param name="objectType">Object type.</param>
         internal virtual object DeserializeInternal(EdiReader reader, Type objectType) {
             if (reader == null)
                 throw new ArgumentNullException(nameof(reader));
@@ -119,6 +124,11 @@ namespace indice.Edi
             return value;
         }
 
+		/// <summary>
+		/// Populates the value.
+		/// </summary>
+		/// <param name="reader">Reader.</param>
+		/// <param name="stack">Stack.</param>
         internal void PopulateValue(EdiReader reader, Stack<EdiStructure> stack) {
             var current = stack.Peek();
             var maxLevelsUp = 0;
@@ -204,6 +214,13 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Populates the string value.
+		/// </summary>
+		/// <param name="reader">Reader.</param>
+		/// <param name="structure">Structure.</param>
+		/// <param name="descriptor">Descriptor.</param>
+		/// <param name="read">If set to <c>true</c> read.</param>
         internal static void PopulateStringValue(EdiReader reader, EdiStructure structure, EdiPropertyDescriptor descriptor, bool read) {
             var cache = structure.CachedReads;
             var valueInfo = descriptor.ValueInfo;
@@ -212,6 +229,13 @@ namespace indice.Edi
             descriptor.Info.SetValue(structure.Instance, text);
         }
 
+		/// <summary>
+		/// Populates the date time value.
+		/// </summary>
+		/// <param name="reader">Reader.</param>
+		/// <param name="structure">Structure.</param>
+		/// <param name="descriptor">Descriptor.</param>
+		/// <param name="read">If set to <c>true</c> read.</param>
         internal static void PopulateDateTimeValue(EdiReader reader, EdiStructure structure, EdiPropertyDescriptor descriptor, bool read) {
             var cache = structure.CachedReads;
             var valueInfo = descriptor.ValueInfo;
@@ -240,6 +264,13 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Populates the decimal value.
+		/// </summary>
+		/// <param name="reader">Reader.</param>
+		/// <param name="structure">Structure.</param>
+		/// <param name="descriptor">Descriptor.</param>
+		/// <param name="read">If set to <c>true</c> read.</param>
         internal static void PopulateDecimalValue(EdiReader reader, EdiStructure structure, EdiPropertyDescriptor descriptor, bool read) {
             var cache = structure.CachedReads;
             var valueInfo = descriptor.ValueInfo;
@@ -250,6 +281,13 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Populates the int32 value.
+		/// </summary>
+		/// <param name="reader">Reader.</param>
+		/// <param name="structure">Structure.</param>
+		/// <param name="descriptor">Descriptor.</param>
+		/// <param name="read">If set to <c>true</c> read.</param>
         internal static void PopulateInt32Value(EdiReader reader, EdiStructure structure, EdiPropertyDescriptor descriptor, bool read) {
             var cache = structure.CachedReads;
             var valueInfo = descriptor.ValueInfo;
@@ -268,6 +306,13 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Populates the char value.
+		/// </summary>
+		/// <param name="reader">Reader.</param>
+		/// <param name="structure">Structure.</param>
+		/// <param name="descriptor">Descriptor.</param>
+		/// <param name="read">If set to <c>true</c> read.</param>
         internal static void PopulateCharValue(EdiReader reader, EdiStructure structure, EdiPropertyDescriptor descriptor, bool read) {
             var cache = structure.CachedReads;
             var valueInfo = descriptor.ValueInfo;
@@ -281,6 +326,13 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Populates the boolean value.
+		/// </summary>
+		/// <param name="reader">Reader.</param>
+		/// <param name="structure">Structure.</param>
+		/// <param name="descriptor">Descriptor.</param>
+		/// <param name="read">If set to <c>true</c> read.</param>
         internal static void PopulateBooleanValue(EdiReader reader, EdiStructure structure, EdiPropertyDescriptor descriptor, bool read) {
             var cache = structure.CachedReads;
             var valueInfo = descriptor.ValueInfo;
@@ -300,6 +352,13 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Populates the object value.
+		/// </summary>
+		/// <param name="reader">Reader.</param>
+		/// <param name="structure">Structure.</param>
+		/// <param name="descriptor">Descriptor.</param>
+		/// <param name="read">If set to <c>true</c> read.</param>
         internal static void PopulateObjectValue(EdiReader reader, EdiStructure structure, EdiPropertyDescriptor descriptor, bool read) {
             var cache = structure.CachedReads;
             var valueInfo = descriptor.ValueInfo;
@@ -308,6 +367,13 @@ namespace indice.Edi
             descriptor.Info.SetValue(structure.Instance, ConvertUtils.ConvertOrCast(text, reader.Culture, descriptor.Info.PropertyType));
         }
 
+		/// <summary>
+		/// Tries the create container.
+		/// </summary>
+		/// <returns><c>true</c>, if create container was tryed, <c>false</c> otherwise.</returns>
+		/// <param name="reader">Reader.</param>
+		/// <param name="stack">Stack.</param>
+		/// <param name="newContainer">New container.</param>
         internal bool TryCreateContainer(EdiReader reader, Stack<EdiStructure> stack, EdiStructureType newContainer) {
             var index = 0;
             if (stack.Count == 0)
@@ -406,6 +472,13 @@ namespace indice.Edi
             return true;
         }
 
+		/// <summary>
+		/// Finds for current segment.
+		/// </summary>
+		/// <returns>The for current segment.</returns>
+		/// <param name="reader">Reader.</param>
+		/// <param name="currentStructure">Current structure.</param>
+		/// <param name="newContainerType">New container type.</param>
         private EdiPropertyDescriptor FindForCurrentSegment(EdiReader reader, EdiStructure currentStructure, EdiStructureType newContainerType) {
             currentStructure.CachedReads.Clear();
             var candidates = currentStructure.GetMatchingProperties(newContainerType);
@@ -426,6 +499,13 @@ namespace indice.Edi
             return property;
         }
 
+		/// <summary>
+		/// Finds for current element.
+		/// </summary>
+		/// <returns>The for current element.</returns>
+		/// <param name="reader">Reader.</param>
+		/// <param name="currentStructure">Current structure.</param>
+		/// <param name="newContainerType">New container type.</param>
         private EdiPropertyDescriptor FindForCurrentElement(EdiReader reader, EdiStructure currentStructure, EdiStructureType newContainerType) {
             var candidates = currentStructure.GetMatchingProperties(newContainerType);
             if (candidates.Length == 0) {
@@ -445,6 +525,13 @@ namespace indice.Edi
             return property;
         }
 
+		/// <summary>
+		/// Finds for current logical structure.
+		/// </summary>
+		/// <returns>The for current logical structure.</returns>
+		/// <param name="reader">Reader.</param>
+		/// <param name="currentStructure">Current structure.</param>
+		/// <param name="newContainerType">New container type.</param>
         private EdiPropertyDescriptor FindForCurrentLogicalStructure(EdiReader reader, EdiStructure currentStructure, EdiStructureType newContainerType) {
             var candidates = currentStructure.GetMatchingProperties(newContainerType);
             var property = default(EdiPropertyDescriptor);
@@ -459,6 +546,14 @@ namespace indice.Edi
             return property;
         }
 
+		/// <summary>
+		/// Conditionals the match.
+		/// </summary>
+		/// <returns>The match.</returns>
+		/// <param name="reader">Reader.</param>
+		/// <param name="currentStructure">Current structure.</param>
+		/// <param name="newContainerType">New container type.</param>
+		/// <param name="matches">Matches.</param>
         private static EdiPropertyDescriptor ConditionalMatch(EdiReader reader, EdiStructure currentStructure, EdiStructureType newContainerType, EdiPropertyDescriptor[] matches) {
             if (!matches.All(p => p.ConditionInfo != null)) {
                 throw new EdiException(
@@ -538,6 +633,12 @@ namespace indice.Edi
 
         #region Write internals
 
+		/// <summary>
+		/// Serializes the internal.
+		/// </summary>
+		/// <param name="writer">Writer.</param>
+		/// <param name="value">Value.</param>
+		/// <param name="objectType">Object type.</param>
         internal virtual void SerializeInternal(EdiWriter writer, object value, Type objectType) {
             if (writer == null)
                 throw new ArgumentNullException(nameof(writer));
@@ -560,6 +661,12 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Serializes the structure.
+		/// </summary>
+		/// <param name="writer">Writer.</param>
+		/// <param name="stack">Stack.</param>
+		/// <param name="structuralComparer">Structural comparer.</param>
         private static void SerializeStructure(EdiWriter writer, Stack<EdiStructure> stack, EdiPathComparer structuralComparer = null) {
             structuralComparer = structuralComparer ?? new EdiPathComparer(writer.Grammar);
             var structure = stack.Peek();

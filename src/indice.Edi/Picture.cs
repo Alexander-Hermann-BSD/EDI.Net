@@ -7,10 +7,19 @@ using System.Threading.Tasks;
 
 namespace indice.Edi
 {
+	/// <summary>
+	/// Picture kind.
+	/// </summary>
     public enum PictureKind
     {
+		/// <summary>
+		/// The alphanumeric.
+		/// </summary>
         Alphanumeric,
-        Numeric
+		/// <summary>
+		/// The numeric.
+		/// </summary>
+        Numeric,
     }
 
     /// <summary>

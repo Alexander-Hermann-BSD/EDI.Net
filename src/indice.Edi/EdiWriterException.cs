@@ -86,17 +86,35 @@ namespace indice.Edi
         }
 #endif
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:indice.Edi.EdiWriterException"/> class.
+		/// </summary>
+		/// <param name="message">Message.</param>
+		/// <param name="innerException">Inner exception.</param>
+		/// <param name="path">Path.</param>
         internal EdiWriterException(string message, Exception innerException, string path)
             : base(message, innerException)
         {
             Path = path;
         }
 
+		/// <summary>
+		/// Create the specified writer, message and ex.
+		/// </summary>
+		/// <param name="writer">Writer.</param>
+		/// <param name="message">Message.</param>
+		/// <param name="ex">Ex.</param>
         internal static EdiWriterException Create(EdiWriter writer, string message, Exception ex)
         {
             return Create(writer.ContainerPath, message, ex);
         }
 
+		/// <summary>
+		/// Create the specified path, message and ex.
+		/// </summary>
+		/// <param name="path">Path.</param>
+		/// <param name="message">Message.</param>
+		/// <param name="ex">Ex.</param>
         internal static EdiWriterException Create(string path, string message, Exception ex)
         {
             message = EdiPosition.FormatMessage(null, path, message);

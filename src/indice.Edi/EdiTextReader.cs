@@ -10,20 +10,61 @@ using System.Threading.Tasks;
 
 namespace indice.Edi
 {
+	/// <summary>
+	/// Edi text reader.
+	/// </summary>
     public class EdiTextReader : EdiReader, IEdiLineInfo
     {
+		/// <summary>
+		/// The unicode replacement char.
+		/// </summary>
         private const char UnicodeReplacementChar = '\uFFFD';
+		/// <summary>
+		/// The reader.
+		/// </summary>
         private readonly TextReader _reader;
+		/// <summary>
+		/// The chars.
+		/// </summary>
         private char[] _chars;
+		/// <summary>
+		/// The chars used.
+		/// </summary>
         private int _charsUsed;
+		/// <summary>
+		/// The char position.
+		/// </summary>
         private int _charPos;
+		/// <summary>
+		/// The line start position.
+		/// </summary>
         private int _lineStartPos;
+		/// <summary>
+		/// The line number.
+		/// </summary>
         private int _lineNumber;
+		/// <summary>
+		/// The is end of file.
+		/// </summary>
         private bool _isEndOfFile;
+		/// <summary>
+		/// The buffer.
+		/// </summary>
         private StringBuffer _buffer;
+		/// <summary>
+		/// The string reference.
+		/// </summary>
         private StringReference _stringReference;
+		/// <summary>
+		/// The name table.
+		/// </summary>
         internal NameTable NameTable;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:indice.Edi.EdiTextReader"/> class.
+		/// </summary>
+		/// <param name="reader">Reader.</param>
+		/// <param name="grammar">Grammar.</param>
         public EdiTextReader(TextReader reader, IEdiGrammar grammar)
             : base(grammar) {
             if (null == reader)
@@ -79,6 +120,10 @@ namespace indice.Edi
             return ReadAsDateTimeInternal();
         }
         
+		/// <summary>
+		/// Reads the internal.
+		/// </summary>
+		/// <returns><c>true</c>, if internal was  read, <c>false</c> otherwise.</returns>
         internal override bool ReadInternal() {
             while (true) {
                 switch (_currentState) {
@@ -115,7 +160,10 @@ namespace indice.Edi
         }
 
         #region Parse
-
+		/// <summary>
+		/// Parses the post value.
+		/// </summary>
+		/// <returns><c>true</c>, if post value was parsed, <c>false</c> otherwise.</returns>
         private bool ParsePostValue() {
             while (true) {
                 char currentChar = _chars[_charPos];
@@ -162,6 +210,10 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Parses the service string advice.
+		/// </summary>
+		/// <returns><c>true</c>, if service string advice was parsed, <c>false</c> otherwise.</returns>
         private bool ParseServiceStringAdvice() {
             if (!string.IsNullOrEmpty(Grammar.ServiceStringAdviceTag) && 
                 '\0' == _chars[_charPos]) {
@@ -181,6 +233,10 @@ namespace indice.Edi
             return true;
         }
 
+		/// <summary>
+		/// Parses the segment.
+		/// </summary>
+		/// <returns><c>true</c>, if segment was parsed, <c>false</c> otherwise.</returns>
         private bool ParseSegment() {
             while (true) {
                 char currentChar = _chars[_charPos];
@@ -223,6 +279,10 @@ namespace indice.Edi
                 }
             }
         }
+		/// <summary>
+		/// Parses the name of the segment.
+		/// </summary>
+		/// <returns><c>true</c>, if segment name was parsed, <c>false</c> otherwise.</returns>
         private bool ParseSegmentName() {
             char firstChar = _chars[_charPos];
             ShiftBufferIfNeeded();
@@ -248,6 +308,10 @@ namespace indice.Edi
             return true;
         }
 
+		/// <summary>
+		/// Parses the value.
+		/// </summary>
+		/// <returns><c>true</c>, if value was parsed, <c>false</c> otherwise.</returns>
         private bool ParseValue() {
             while (true) {
                 char currentChar = _chars[_charPos];
@@ -330,11 +394,17 @@ namespace indice.Edi
 
 
 #if DEBUG
+		/// <summary>
+		/// Sets the char buffer.
+		/// </summary>
+		/// <param name="chars">Chars.</param>
         internal void SetCharBuffer(char[] chars) {
             _chars = chars;
         }
 #endif
-
+		/// <summary>
+		/// Clears the recent string.
+		/// </summary>
         private void ClearRecentString() {
             if (_buffer != null)
                 _buffer.Position = 0;
@@ -342,6 +412,10 @@ namespace indice.Edi
             _stringReference = new StringReference();
         }
 
+		/// <summary>
+		/// Gets the buffer.
+		/// </summary>
+		/// <returns>The buffer.</returns>
         private StringBuffer GetBuffer() {
             if (_buffer == null) {
                 _buffer = new StringBuffer(1025);
@@ -352,11 +426,19 @@ namespace indice.Edi
             return _buffer;
         }
 
+		/// <summary>
+		/// Ons the new line.
+		/// </summary>
+		/// <param name="pos">Position.</param>
         private void OnNewLine(int pos) {
             _lineNumber++;
             _lineStartPos = pos - 1;
         }
 
+		/// <summary>
+		/// Parses the string.
+		/// </summary>
+		/// <param name="forceNull">If set to <c>true</c> force null.</param>
         private void ParseString(bool forceNull = false) {
             ShiftBufferIfNeeded();
             ReadStringIntoBuffer();
@@ -369,12 +451,23 @@ namespace indice.Edi
         }
         #region Helpers
 
+		/// <summary>
+		/// Blocks the copy chars.
+		/// </summary>
+		/// <param name="src">Source.</param>
+		/// <param name="srcOffset">Source offset.</param>
+		/// <param name="dst">Dst.</param>
+		/// <param name="dstOffset">Dst offset.</param>
+		/// <param name="count">Count.</param>
         private static void BlockCopyChars(char[] src, int srcOffset, char[] dst, int dstOffset, int count) {
             const int charByteCount = 2;
 
             Buffer.BlockCopy(src, srcOffset * charByteCount, dst, dstOffset * charByteCount, count * charByteCount);
         }
 
+		/// <summary>
+		/// Shifts the buffer if needed.
+		/// </summary>
         private void ShiftBufferIfNeeded() {
             // once in the last 10% of the buffer shift the remaining content to the start to avoid
             // unnessesarly increasing the buffer size when reading numbers/strings
@@ -391,10 +484,21 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Reads the data.
+		/// </summary>
+		/// <returns>The data.</returns>
+		/// <param name="append">If set to <c>true</c> append.</param>
         private int ReadData(bool append) {
             return ReadData(append, 0);
         }
 
+		/// <summary>
+		/// Reads the data.
+		/// </summary>
+		/// <returns>The data.</returns>
+		/// <param name="append">If set to <c>true</c> append.</param>
+		/// <param name="charsRequired">Chars required.</param>
         private int ReadData(bool append, int charsRequired) {
             if (_isEndOfFile)
                 return 0;
@@ -447,6 +551,12 @@ namespace indice.Edi
             return charsRead;
         }
 
+		/// <summary>
+		/// Ensures the chars.
+		/// </summary>
+		/// <returns><c>true</c>, if chars was ensured, <c>false</c> otherwise.</returns>
+		/// <param name="relativePosition">Relative position.</param>
+		/// <param name="append">If set to <c>true</c> append.</param>
         private bool EnsureChars(int relativePosition, bool append) {
             if (_charPos + relativePosition >= _charsUsed)
                 return ReadChars(relativePosition, append);
@@ -454,6 +564,12 @@ namespace indice.Edi
             return true;
         }
 
+		/// <summary>
+		/// Reads the chars.
+		/// </summary>
+		/// <returns><c>true</c>, if chars was  read, <c>false</c> otherwise.</returns>
+		/// <param name="relativePosition">Relative position.</param>
+		/// <param name="append">If set to <c>true</c> append.</param>
         private bool ReadChars(int relativePosition, bool append) {
             if (_isEndOfFile)
                 return false;
@@ -479,6 +595,9 @@ namespace indice.Edi
             return true;
         }
 
+		/// <summary>
+		/// Reads the string into buffer.
+		/// </summary>
         private void ReadStringIntoBuffer() {
             int charPos = _charPos;
             int initialPosition = _charPos;
@@ -554,6 +673,13 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Writes the char to buffer.
+		/// </summary>
+		/// <param name="buffer">Buffer.</param>
+		/// <param name="writeChar">Write char.</param>
+		/// <param name="lastWritePosition">Last write position.</param>
+		/// <param name="writeToPosition">Write to position.</param>
         private void WriteCharToBuffer(StringBuffer buffer, char writeChar, int lastWritePosition, int writeToPosition) {
             if (writeToPosition > lastWritePosition) {
                 buffer.Append(_chars, lastWritePosition, writeToPosition - lastWritePosition);
@@ -562,6 +688,10 @@ namespace indice.Edi
             buffer.Append(writeChar);
         }
 
+		/// <summary>
+		/// Parses the unicode.
+		/// </summary>
+		/// <returns>The unicode.</returns>
         private char ParseUnicode() {
             char writeChar;
             if (EnsureChars(4, true)) {
@@ -576,11 +706,18 @@ namespace indice.Edi
             return writeChar;
         }
 
+		/// <summary>
+		/// Processes the line feed.
+		/// </summary>
         private void ProcessLineFeed() {
             _charPos++;
             OnNewLine(_charPos);
         }
 
+		/// <summary>
+		/// Processes the carriage return.
+		/// </summary>
+		/// <param name="append">If set to <c>true</c> append.</param>
         private void ProcessCarriageReturn(bool append) {
             _charPos++;
 
@@ -590,6 +727,11 @@ namespace indice.Edi
             OnNewLine(_charPos);
         }
 
+		/// <summary>
+		/// Eats the whitespace.
+		/// </summary>
+		/// <returns><c>true</c>, if whitespace was eaten, <c>false</c> otherwise.</returns>
+		/// <param name="oneOrMore">If set to <c>true</c> one or more.</param>
         private bool EatWhitespace(bool oneOrMore) {
             bool finished = false;
             bool ateWhitespace = false;

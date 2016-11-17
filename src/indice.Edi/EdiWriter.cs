@@ -15,20 +15,52 @@ namespace indice.Edi
     /// </summary>
     public abstract class EdiWriter : IDisposable
     {
+		/// <summary>
+		/// State.
+		/// </summary>
         internal enum State
         {
+			/// <summary>
+			/// The start.
+			/// </summary>
             Start = 0,
+			/// <summary>
+			/// The name of the segment.
+			/// </summary>
             SegmentName = 1,
+			/// <summary>
+			/// The segment.
+			/// </summary>
             Segment = 2,
+			/// <summary>
+			/// The element.
+			/// </summary>
             Element = 3,
+			/// <summary>
+			/// The component.
+			/// </summary>
             Component = 4,
+			/// <summary>
+			/// The value.
+			/// </summary>
             Value = 5,
+			/// <summary>
+			/// The closed.
+			/// </summary>
             Closed = 6,
-            Error = 7
+			/// <summary>
+			/// The error.
+			/// </summary>
+            Error = 7,
         }
-        // array that gives a new state based on the current state an the token being written
+        /// <summary>
+        /// array that gives a new state based on the current state an the token being written
+        /// </summary>
         private static readonly State[][] StateArray;
 
+		/// <summary>
+		/// The state array tempate.
+		/// </summary>
         internal static readonly State[][] StateArrayTempate =
         {
             //                                       Start                   SegmentName         Segment           Element           Component          Value              Closed       Error
@@ -41,6 +73,10 @@ namespace indice.Edi
             /* Value (this will be copied)  */new[] { State.Error,           State.Value,        State.Error,      State.Value,      State.Value,       State.Value,       State.Error, State.Error }
         };
 
+		/// <summary>
+		/// Builds the state array.
+		/// </summary>
+		/// <returns>The state array.</returns>
         internal static State[][] BuildStateArray() {
             var allStates = StateArrayTempate.ToList();
             var errorStates = StateArrayTempate[0];
@@ -67,16 +103,37 @@ namespace indice.Edi
             return allStates.ToArray();
         }
 
+		/// <summary>
+		/// Initializes the <see cref="T:indice.Edi.EdiWriter"/> class.
+		/// </summary>
         static EdiWriter() {
             StateArray = BuildStateArray();
         }
 
+		/// <summary>
+		/// The grammar.
+		/// </summary>
         private readonly IEdiGrammar _grammar;
-        private List<EdiPosition> _stack;
-        private EdiPosition _currentPosition;
-        private State _currentState;
-        private Formatting _formatting;
-        private CultureInfo _culture;
+        /// <summary>
+        /// The stack.
+        /// </summary>
+		private List<EdiPosition> _stack;
+        /// <summary>
+        /// The current position.
+        /// </summary>
+		private EdiPosition _currentPosition;
+        /// <summary>
+        /// The state of the current.
+        /// </summary>
+		private State _currentState;
+        /// <summary>
+        /// The formatting.
+        /// </summary>
+		private Formatting _formatting;
+        /// <summary>
+        /// The culture.
+        /// </summary>
+		private CultureInfo _culture;
 
         /// <summary>
         /// Gets the <see cref="IEdiGrammar"/> rules for use in the reader.
@@ -136,6 +193,10 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Gets the container path.
+		/// </summary>
+		/// <value>The container path.</value>
         internal string ContainerPath {
             get {
                 if (_currentPosition.Type == EdiContainerType.None || _stack == null) {
@@ -200,6 +261,10 @@ namespace indice.Edi
             CloseOutput = true;
         }
         
+		/// <summary>
+		/// Push the specified value.
+		/// </summary>
+		/// <param name="value">Value.</param>
         private void Push(EdiContainerType value) {
             if (_currentPosition.Type != EdiContainerType.None) {
                 if (_stack == null) {
@@ -217,6 +282,9 @@ namespace indice.Edi
                 _currentPosition.Position = 0;
         }
 
+		/// <summary>
+		/// Pop this instance.
+		/// </summary>
         private EdiContainerType Pop() {
             EdiPosition oldPosition = _currentPosition;
 
@@ -230,6 +298,9 @@ namespace indice.Edi
             return oldPosition.Type;
         }
 
+		/// <summary>
+		/// Peek this instance.
+		/// </summary>
         private EdiContainerType Peek() {
             return _currentPosition.Type;
         }
@@ -365,11 +436,20 @@ namespace indice.Edi
             WriteToken(token, null);
         }
 
+		/// <summary>
+		/// Writes the token internal.
+		/// </summary>
+		/// <param name="reader">Reader.</param>
+		/// <param name="writeChildren">If set to <c>true</c> write children.</param>
         internal virtual void WriteTokenInternal(EdiReader reader, bool writeChildren) {
             // TODO: Write using an open EDI reader (Copy).
             throw new NotImplementedException();
         }
 
+		/// <summary>
+		/// Writes the end.
+		/// </summary>
+		/// <param name="type">Type.</param>
         private void WriteEnd(EdiContainerType type) {
             switch (type) {
                 case EdiContainerType.Segment:
@@ -382,10 +462,18 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Autos the complete all.
+		/// </summary>
         private void AutoCompleteAll() {
             AutoCompleteClose(EdiContainerType.None);
         }
 
+		/// <summary>
+		/// Gets the type of the close token for.
+		/// </summary>
+		/// <returns>The close token for type.</returns>
+		/// <param name="type">Type.</param>
         private EdiToken GetCloseTokenForType(EdiContainerType type) {
             switch (type) {
                 case EdiContainerType.Segment:
@@ -401,6 +489,10 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Autos the complete close.
+		/// </summary>
+		/// <param name="type">Type.</param>
         private void AutoCompleteClose(EdiContainerType type) {
             // write closing symbol and calculate new state
             while (Peek() >= type && Top > 0) {
@@ -450,6 +542,9 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Writes the service string advice.
+		/// </summary>
         public void WriteServiceStringAdvice() {
             if (_currentState != State.Start) {
                 throw EdiWriterException.Create(this, "Service string advice can only be applied at the begining of the iterchange. Current state is: {0}".FormatWith(Culture, _currentState), null);
@@ -506,6 +601,10 @@ namespace indice.Edi
             
         }
 
+		/// <summary>
+		/// Autos the complete.
+		/// </summary>
+		/// <param name="tokenBeingWritten">Token being written.</param>
         internal void AutoComplete(EdiToken tokenBeingWritten) {
 
             // gets new state based on the current state and what is being written
@@ -947,7 +1046,9 @@ namespace indice.Edi
         }
         #endregion
 
-
+		/// <summary>
+		/// System.s the identifier isposable. dispose.
+		/// </summary>
         void IDisposable.Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);
@@ -963,6 +1064,14 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Writes the value.
+		/// </summary>
+		/// <param name="writer">Writer.</param>
+		/// <param name="typeCode">Type code.</param>
+		/// <param name="value">Value.</param>
+		/// <param name="picture">Picture.</param>
+		/// <param name="format">Format.</param>
         internal static void WriteValue(EdiWriter writer, PrimitiveTypeCode typeCode, object value, Picture? picture, string format) {
             switch (typeCode) {
                 case PrimitiveTypeCode.Char:
@@ -1119,6 +1228,12 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Creates the unsupported type exception.
+		/// </summary>
+		/// <returns>The unsupported type exception.</returns>
+		/// <param name="writer">Writer.</param>
+		/// <param name="value">Value.</param>
         private static EdiWriterException CreateUnsupportedTypeException(EdiWriter writer, object value) {
             return EdiWriterException.Create(writer, "Unsupported type: {0}. Use the EdiSerializer class to get the object's EDI representation.".FormatWith(CultureInfo.InvariantCulture, value.GetType()), null);
         }
@@ -1158,26 +1273,50 @@ namespace indice.Edi
             }
         }
 
+		/// <summary>
+		/// Internals the write end.
+		/// </summary>
+		/// <param name="container">Container.</param>
         internal void InternalWriteEnd(EdiContainerType container) {
             AutoCompleteClose(container);
         }
 
+		/// <summary>
+		/// Internals the name of the write segment.
+		/// </summary>
+		/// <param name="name">Name.</param>
         internal void InternalWriteSegmentName(string name) {
             _currentPosition.SegmentName = name;
         }
 
+		/// <summary>
+		/// Internals the write raw.
+		/// </summary>
         internal void InternalWriteRaw() {
         }
 
+		/// <summary>
+		/// Internals the write start.
+		/// </summary>
+		/// <param name="token">Token.</param>
+		/// <param name="container">Container.</param>
         internal void InternalWriteStart(EdiToken token, EdiContainerType container) {
             AutoComplete(token);
             Push(container);
         }
 
+		/// <summary>
+		/// Internals the write value.
+		/// </summary>
+		/// <param name="token">Token.</param>
         internal void InternalWriteValue(EdiToken token) {
             AutoComplete(token);
         }
 
+		/// <summary>
+		/// Internals the write whitespace.
+		/// </summary>
+		/// <param name="ws">Ws.</param>
         internal void InternalWriteWhitespace(string ws) {
             if (ws != null) {
                 if (!StringUtils.IsWhiteSpace(ws)) {
