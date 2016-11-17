@@ -55,11 +55,29 @@ namespace indice.Edi
         /// Only available in EDI Fact. Otherwize null
         /// </summary>
         string ServiceStringAdviceTag { get; }
+        /// <summary>
+        /// Only available in EDI Fact. Otherwize null
+        /// </summary>
         string InterchangeHeaderTag { get; }
+        /// <summary>
+        /// Only available in EDI Fact. Otherwize null
+        /// </summary>
         string FunctionalGroupHeaderTag { get; }
+        /// <summary>
+        /// Only available in EDI Fact. Otherwize null
+        /// </summary>
         string MessageHeaderTag { get; }
+        /// <summary>
+        /// Only available in EDI Fact. Otherwize null
+        /// </summary>
         string MessageTrailerTag { get; }
+        /// <summary>
+        /// Only available in EDI Fact. Otherwize null
+        /// </summary>
         string FunctionalGroupTrailerTag { get; }
+        /// <summary>
+        /// Only available in EDI Fact. Otherwize null
+        /// </summary>
         string InterchangeTrailerTag { get; }
 
         /// <summary>
