@@ -50,7 +50,12 @@ namespace indice.Edi
         {
         }
 #endif
-
+		/// <summary>
+		/// Create the specified lineInfo, path and message.
+		/// </summary>
+		/// <param name="lineInfo">Line info.</param>
+		/// <param name="path">Path.</param>
+		/// <param name="message">Message.</param>
         internal static EdiException Create(IEdiLineInfo lineInfo, string path, string message) {
             message = EdiPosition.FormatMessage(lineInfo, path, message);
 

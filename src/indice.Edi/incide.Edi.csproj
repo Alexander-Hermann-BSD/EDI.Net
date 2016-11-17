@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7ABDEE91-6608-4207-9E81-654B49D29E92}</ProjectGuid>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>incide.Edi</RootNamespace>
+    <AssemblyName>incide.Edi</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;PORTABLE;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\incide.Edi.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <DefineConstants>PORTABLE;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="EdiContainerType.cs" />
+    <Compile Include="EdiException.cs" />
+    <Compile Include="EdiGrammar.cs" />
+    <Compile Include="EdiPath.cs" />
+    <Compile Include="EdiPathComparer.cs" />
+    <Compile Include="EdiPathFormat.cs" />
+    <Compile Include="EdiPosition.cs" />
+    <Compile Include="EdiReader.cs" />
+    <Compile Include="EdiReaderException.cs" />
+    <Compile Include="EdiSerializer.cs" />
+    <Compile Include="EdiStructureType.cs" />
+    <Compile Include="EdiTextReader.cs" />
+    <Compile Include="EdiTextWriter.cs" />
+    <Compile Include="EdiToken.cs" />
+    <Compile Include="EdiWriter.cs" />
+    <Compile Include="EdiWriterException.cs" />
+    <Compile Include="Formatting.cs" />
+    <Compile Include="IArrayPool.cs" />
+    <Compile Include="IEdiGrammar.cs" />
+    <Compile Include="IEdiLineInfo.cs" />
+    <Compile Include="Picture.cs" />
+    <Compile Include="WriteState.cs" />
+    <Compile Include="Serialization\EdiAttribute.cs" />
+    <Compile Include="Serialization\EdiConditionAttribute.cs" />
+    <Compile Include="Serialization\EdiElementAttribute.cs" />
+    <Compile Include="Serialization\EdiGroupAttribute.cs" />
+    <Compile Include="Serialization\EdiMessageAttribute.cs" />
+    <Compile Include="Serialization\EdiPathAttribute.cs" />
+    <Compile Include="Serialization\EdiPropertyDescriptor.cs" />
+    <Compile Include="Serialization\EdiReadQueue.cs" />
+    <Compile Include="Serialization\EdiSegmentAttribute.cs" />
+    <Compile Include="Serialization\EdiSegmentGroupAttribute.cs" />
+    <Compile Include="Serialization\EdiStructure.cs" />
+    <Compile Include="Serialization\EdiStructureAttribute.cs" />
+    <Compile Include="Serialization\EdiTypeDescriptor.cs" />
+    <Compile Include="Serialization\EdiValueAttribute.cs" />
+    <Compile Include="Utilities\BufferUtils.cs" />
+    <Compile Include="Utilities\CollectionUtils.cs" />
+    <Compile Include="Utilities\ConvertUtils.cs" />
+    <Compile Include="Utilities\EdiExtensions.cs" />
+    <Compile Include="Utilities\MathUtils.cs" />
+    <Compile Include="Utilities\MethodCall.cs" />
+    <Compile Include="Utilities\NameTable.cs" />
+    <Compile Include="Utilities\ReflectionUtils.cs" />
+    <Compile Include="Utilities\StringBuffer.cs" />
+    <Compile Include="Utilities\StringReference.cs" />
+    <Compile Include="Utilities\StringUtils.cs" />
+    <Compile Include="Utilities\ThreadSafeStore.cs" />
+    <Compile Include="Utilities\TypeExtensions.cs" />
+    <Compile Include="Utilities\ValidationUtils.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+</Project>

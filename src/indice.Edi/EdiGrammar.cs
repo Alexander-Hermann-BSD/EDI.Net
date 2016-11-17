@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace indice.Edi
 {
+	/// <summary>
+	/// Edi grammar.
+	/// </summary>
     public class EdiGrammar : IEdiGrammar
     {
         protected char _SegmentNameDelimiter;
@@ -26,6 +29,9 @@ namespace indice.Edi
         protected string _FunctionalGroupTrailerTag;
         protected string _InterchangeTrailerTag;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:indice.Edi.EdiGrammar"/> class.
+		/// </summary>
         public EdiGrammar() {
             _ComponentDataElementSeparator = ':';
             _SegmentNameDelimiter = _DataElementSeparator = '+';
@@ -43,6 +49,10 @@ namespace indice.Edi
             _InterchangeTrailerTag = "UNZ";
         }
 
+		/// <summary>
+		/// Gets the separators.
+		/// </summary>
+		/// <param name="grammar">a Grammar object</param>
         public EdiGrammar(IEdiGrammar grammar) {
             _ComponentDataElementSeparator = grammar.ComponentDataElementSeparator;
             _DataElementSeparator = grammar.DataElementSeparator;
@@ -60,6 +70,7 @@ namespace indice.Edi
             _InterchangeTrailerTag = grammar.InterchangeTrailerTag;
         }
 
+		#region iplementation of IEdiGrammar
         public char[] Separators {
             get {
                 if (_separators == null) {
@@ -146,6 +157,8 @@ namespace indice.Edi
             _DecimalMark = decimalMark;
             _SegmentTerminator = segmentTerminator;
         }
+
+		#endregion
 
         public static IEdiGrammar NewEdiFact() {
             return new EdiGrammar();
