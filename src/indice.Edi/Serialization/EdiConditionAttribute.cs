@@ -13,14 +13,25 @@ namespace indice.Edi.Serialization
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
     public sealed class EdiConditionAttribute : EdiPathAttribute
     {
+		/// <summary>
+		/// The match value.
+		/// </summary>
         private readonly string _MatchValue;
 
+		/// <summary>
+		/// Gets the match value.
+		/// </summary>
+		/// <value>The match value.</value>
         public string MatchValue {
             get {
                 return _MatchValue;
             }
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:indice.Edi.Serialization.EdiConditionAttribute"/> class.
+		/// </summary>
+		/// <param name="matchValue">Match value.</param>
         public EdiConditionAttribute(string matchValue)
             : base(new EdiPath()) {
             _MatchValue = matchValue;

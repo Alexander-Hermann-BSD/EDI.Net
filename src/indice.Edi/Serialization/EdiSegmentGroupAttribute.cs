@@ -15,8 +15,14 @@ namespace indice.Edi.Serialization
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
     public sealed class EdiSegmentGroupAttribute : EdiStructureAttribute
     {
+		/// <summary>
+		/// The start path.
+		/// </summary>
         private EdiPath _StartPath;
-        private EdiPath _EndPath;
+        /// <summary>
+        /// The end path.
+        /// </summary>
+		private EdiPath _EndPath;
 
         /// <summary>
         /// The segment name that marks the begining of a each group.
@@ -26,10 +32,18 @@ namespace indice.Edi.Serialization
             Start = segmentStart;
         }
         
+		/// <summary>
+		/// Gets the start internal.
+		/// </summary>
+		/// <value>The start internal.</value>
         internal EdiPath StartInternal {
             get { return _StartPath; }
         }
 
+		/// <summary>
+		/// Gets the sequence end internal.
+		/// </summary>
+		/// <value>The sequence end internal.</value>
         internal EdiPath SequenceEndInternal {
             get { return _EndPath; }
         }

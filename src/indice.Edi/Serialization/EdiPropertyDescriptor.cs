@@ -8,64 +8,135 @@ using System.Threading.Tasks;
 
 namespace indice.Edi.Serialization
 {
+	/// <summary>
+	/// Edi property descriptor.
+	/// </summary>
     internal class EdiPropertyDescriptor
     {
+		/// <summary>
+		/// The info.
+		/// </summary>
         private readonly PropertyInfo _Info;
-        private readonly List<EdiAttribute> _Attributes;
-        private readonly EdiPathAttribute _PathInfo;
-        private readonly EdiConditionAttribute _ConditionInfo;
-        private readonly EdiValueAttribute _ValueInfo;
-        private readonly EdiSegmentGroupAttribute _SegmentGroupInfo;
+        /// <summary>
+        /// The attributes.
+        /// </summary>
+		private readonly List<EdiAttribute> _Attributes;
+        /// <summary>
+        /// The path info.
+        /// </summary>
+		private readonly EdiPathAttribute _PathInfo;
+        /// <summary>
+        /// The condition info.
+        /// </summary>
+		private readonly EdiConditionAttribute _ConditionInfo;
+        /// <summary>
+        /// The value info.
+        /// </summary>
+		private readonly EdiValueAttribute _ValueInfo;
+        /// <summary>
+        /// The segment group info.
+        /// </summary>
+		private readonly EdiSegmentGroupAttribute _SegmentGroupInfo;
 
+		/// <summary>
+		/// Gets the attributes.
+		/// </summary>
+		/// <value>The attributes.</value>
         public List<EdiAttribute> Attributes {
             get { return _Attributes; }
         }
 
+		/// <summary>
+		/// Gets the info.
+		/// </summary>
+		/// <value>The info.</value>
         public PropertyInfo Info {
             get { return _Info; }
         }
 
+		/// <summary>
+		/// Gets the path.
+		/// </summary>
+		/// <value>The path.</value>
         public string Path {
             get {
                 return _PathInfo?.Path;
             }
         }
+
+		/// <summary>
+		/// Gets the segment.
+		/// </summary>
+		/// <value>The segment.</value>
         public string Segment {
             get {
                 return _PathInfo?.Segment;
             }
         }
+
+		/// <summary>
+		/// Gets the condition info.
+		/// </summary>
+		/// <value>The condition info.</value>
         public EdiConditionAttribute ConditionInfo {
             get {
                 return _ConditionInfo;
             }
         }
+
+		/// <summary>
+		/// Gets the path info.
+		/// </summary>
+		/// <value>The path info.</value>
         public EdiPathAttribute PathInfo {
             get {
                 return _PathInfo;
             }
         }
+
+		/// <summary>
+		/// Gets the value info.
+		/// </summary>
+		/// <value>The value info.</value>
         public EdiValueAttribute ValueInfo {
             get {
                 return _ValueInfo;
             }
         }
+
+		/// <summary>
+		/// Gets the segment group info.
+		/// </summary>
+		/// <value>The segment group info.</value>
         public EdiSegmentGroupAttribute SegmentGroupInfo {
             get {
                 return _SegmentGroupInfo;
             }
         }
 
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="T:indice.Edi.Serialization.EdiPropertyDescriptor"/> marks segment group.
+		/// </summary>
+		/// <value><c>true</c> if marks segment group; otherwise, <c>false</c>.</value>
         public bool MarksSegmentGroup {
             get {
                 return _SegmentGroupInfo != null;
             }
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:indice.Edi.Serialization.EdiPropertyDescriptor"/> class.
+		/// </summary>
+		/// <param name="info">Info.</param>
         public EdiPropertyDescriptor(PropertyInfo info) 
             : this(info, null) {
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:indice.Edi.Serialization.EdiPropertyDescriptor"/> class.
+		/// </summary>
+		/// <param name="info">Info.</param>
+		/// <param name="attributes">Attributes.</param>
         public EdiPropertyDescriptor(PropertyInfo info, IEnumerable<EdiAttribute> attributes) {
             _Info = info;
             if (attributes == null) {
@@ -94,6 +165,10 @@ namespace indice.Edi.Serialization
             }
         }
 
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:indice.Edi.Serialization.EdiPropertyDescriptor"/>.
+		/// </summary>
+		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:indice.Edi.Serialization.EdiPropertyDescriptor"/>.</returns>
         public override string ToString() {
             if (ValueInfo != null) {
                 return $"Value @ {Path}";
