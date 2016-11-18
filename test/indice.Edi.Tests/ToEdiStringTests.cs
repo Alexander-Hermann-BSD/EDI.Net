@@ -7,8 +7,14 @@ using Xunit;
 
 namespace indice.Edi.Tests
 {
+	/// <summary>
+	/// To edi string tests.
+	/// </summary>
     public class ToEdiStringTests
     {
+		/// <summary>
+		/// Integers to string test.
+		/// </summary>
         [Fact]
         public void IntegerToStringTest() {
             int value = 12;

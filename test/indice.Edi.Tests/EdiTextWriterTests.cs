@@ -8,8 +8,14 @@ using Xunit;
 
 namespace indice.Edi.Tests
 {
+	/// <summary>
+	/// Edi text writer tests.
+	/// </summary>
     public class EdiTextWriterTests
     {
+		/// <summary>
+		/// Writers the writes service string advice test.
+		/// </summary>
         [Fact, Trait("Category", "Writer")]
         public void WriterWrites_ServiceStringAdvice_Test() {
             var expected = "UNA:+.? '";
@@ -21,7 +27,9 @@ namespace indice.Edi.Tests
             Assert.Equal(expected, output.ToString().TrimEnd());
         }
 
-
+		/// <summary>
+		/// Writers the writes structure test.
+		/// </summary>
         [Fact, Trait("Category", "Writer")]
         public void WriterWritesStructureTest() {
             var grammar = EdiGrammar.NewEdiFact();

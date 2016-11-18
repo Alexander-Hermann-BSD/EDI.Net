@@ -8,8 +8,14 @@ using Xunit;
 
 namespace indice.Edi.Tests
 {
+	/// <summary>
+	/// Serializer tests.
+	/// </summary>
     public class SerializerTests
     {
+		/// <summary>
+		/// Serializes the test test.
+		/// </summary>
         [Fact]
         public void SerializeTestTest() {
             var grammar = EdiGrammar.NewEdiFact();

@@ -28,8 +28,41 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="MyClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="EdiPathTests.cs" />
+    <Compile Include="EdiTextReaderTests.cs" />
+    <Compile Include="EdiTextWriterTests.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="SerializerTests.cs" />
+    <Compile Include="ToEdiStringTests.cs" />
+    <Compile Include="Models\EdiFact01.cs" />
+    <Compile Include="Models\Order9.cs" />
+    <Compile Include="Models\UtilityBill.cs" />
+    <Compile Include="Models\X12_214.cs" />
+    <Compile Include="Models\X12_850.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\indice.Edi\incide.Edi.csproj">
+      <Project>{7ABDEE91-6608-4207-9E81-654B49D29E92}</Project>
+      <Name>incide.Edi</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Samples\204-MGCTLYST-SAMPLE.EDI" />
+    <None Include="Samples\210-MGCTLYST-SAMPLE.EDI" />
+    <None Include="Samples\214-MGCTLYST-SAMPLE.EDI" />
+    <None Include="Samples\990-MGCTLYST-SAMPLE.EDI" />
+    <None Include="Samples\edifact.01.edi" />
+    <None Include="Samples\tradacoms.order9.edi" />
+    <None Include="Samples\tradacoms.utilitybill.edi" />
+    <None Include="Samples\tradacoms.utilitybill.escape.edi" />
+    <None Include="Samples\x12.214.edi" />
+    <None Include="Samples\x12.810a.edi" />
+    <None Include="Samples\x12.810b.edi" />
+    <None Include="Samples\x12.810c.edi" />
+    <None Include="Samples\x12.810d.edi" />
+    <None Include="Samples\x12.850.edi" />
+    <None Include="Samples\x12.850a.edi" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>

@@ -6,8 +6,15 @@ using Xunit;
 
 namespace indice.Edi.Tests
 {
+	/// <summary>
+	/// Edi path tests.
+	/// </summary>
     public class EdiPathTests
     {
+		/// <summary>
+		/// Parses the handles URI and index formats.
+		/// </summary>
+		/// <param name="text">Text.</param>
         [InlineData("DTM[0][0]")]
         [InlineData("DTM/0/0")]
         [InlineData("DTM/0")]
@@ -19,6 +26,10 @@ namespace indice.Edi.Tests
             Assert.True(path.Equals("DTM[0][0]"));  
         }
 
+		/// <summary>
+		/// Parses the handles two letter segment names.
+		/// </summary>
+		/// <param name="text">Text.</param>
         [InlineData("GS[0][0]")]
         [InlineData("GS/0/0")]
         [InlineData("GS/0")]
@@ -29,6 +40,10 @@ namespace indice.Edi.Tests
             Assert.Equal("GS[0][0]", path.ToString());
         }
 
+		/// <summary>
+		/// Parses the handles one letter two number segment names.
+		/// </summary>
+		/// <param name="text">Text.</param>
         [InlineData("B10[0][0]")]
         [InlineData("B10/0/0")]
         [InlineData("B10/0")]
@@ -39,6 +54,9 @@ namespace indice.Edi.Tests
             Assert.Equal("B10[0][0]", path.ToString());
         }
 
+		/// <summary>
+		/// Orders the by structure test.
+		/// </summary>
         [Fact]
         public void OrderByStructureTest() {
             var grammar = EdiGrammar.NewEdiFact();

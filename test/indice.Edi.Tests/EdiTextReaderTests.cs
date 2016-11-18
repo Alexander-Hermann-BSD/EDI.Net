@@ -8,8 +8,14 @@ using Xunit;
 
 namespace indice.Edi.Tests
 {
+	/// <summary>
+	/// Edi text reader tests.
+	/// </summary>
     public class EdiTextReaderTests
     {
+		/// <summary>
+		/// Readers the test.
+		/// </summary>
         [Fact]
         public void ReaderTest() {
             var msgCount = 0;
@@ -25,6 +31,9 @@ namespace indice.Edi.Tests
             Assert.Equal(4, msgCount);
         }
         
+		/// <summary>
+		/// Deserializes the test.
+		/// </summary>
         [Fact]
         public void DeserializeTest() {
             var grammar = EdiGrammar.NewTradacoms();
@@ -35,6 +44,9 @@ namespace indice.Edi.Tests
             Assert.Equal(1, interchange.Invoices.Count);
         }
 
+		/// <summary>
+		/// Escapes the characters test.
+		/// </summary>
         [Fact]
         public void EscapeCharactersTest() {
             var grammar = EdiGrammar.NewTradacoms();
@@ -45,6 +57,9 @@ namespace indice.Edi.Tests
             Assert.Equal("GEORGE'S FRIED CHIKEN + SONS. Could be the best chicken yet?", interchange.Head.ClientName);
         }
 
+		/// <summary>
+		/// Edis the fact 01 test.
+		/// </summary>
         [Fact]
         public void EdiFact_01_Test()
         {
@@ -121,6 +136,9 @@ namespace indice.Edi.Tests
             Assert.All(quote.Lines, i => Assert.Equal(2, i.Prices.Count));
         }
         
+		/// <summary>
+		/// X12s the grammar test.
+		/// </summary>
         [Fact]
         public void X12_Grammar_Test() {
             var grammar = EdiGrammar.NewX12();
@@ -134,6 +152,9 @@ namespace indice.Edi.Tests
             Assert.Equal("126 Any St", interchange.Groups[0].Orders[0].Addresses[0].AddressInformation);
         }
 
+		/// <summary>
+		/// X12s the 850 issue27 test.
+		/// </summary>
         [Fact]
         public void X12_850_Issue27_Test() {
             var grammar = EdiGrammar.NewX12();
@@ -150,6 +171,9 @@ namespace indice.Edi.Tests
             Assert.Equal("First Quality", interchange.Groups[0].Orders[0].Items[0].MSG[1].MessageText);
         }
 
+		/// <summary>
+		/// X12s the 214 test.
+		/// </summary>
         [Fact]
         public void X12_214_Test() {
             var grammar = EdiGrammar.NewX12();
@@ -161,6 +185,9 @@ namespace indice.Edi.Tests
             Assert.Equal(3, message.Places.Count);
             Assert.Equal(1751807, message.ReferenceIdentification);
         }
+		/// <summary>
+		/// X12s the 204 test.
+		/// </summary>
         [Fact]
         public void X12_204_Test() {
             var grammar = EdiGrammar.NewX12();
@@ -188,6 +215,9 @@ namespace indice.Edi.Tests
             Assert.Equal(42, segmentCount);
         }
 
+		/// <summary>
+		/// Readers the strips z padding test.
+		/// </summary>
         [Fact]
         public void ReaderStrips_Z_Padding_Test() {
             var grammar = EdiGrammar.NewEdiFact();
