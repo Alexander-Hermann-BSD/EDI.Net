@@ -9,8 +9,16 @@ using System.Threading.Tasks;
 
 namespace indice.Edi.Utilities
 {
+	/// <summary>
+	/// Edi extensions.
+	/// </summary>
     public static class EdiExtensions
     {
+		/// <summary>
+		/// Ises the start token.
+		/// </summary>
+		/// <returns><c>true</c>, if start token was ised, <c>false</c> otherwise.</returns>
+		/// <param name="token">Token.</param>
         public static bool IsStartToken(this EdiToken token) {
             switch (token) {
                 case EdiToken.SegmentStart:
@@ -22,6 +30,11 @@ namespace indice.Edi.Utilities
             }
         }
 
+		/// <summary>
+		/// Ises the primitive token.
+		/// </summary>
+		/// <returns><c>true</c>, if primitive token was ised, <c>false</c> otherwise.</returns>
+		/// <param name="token">Token.</param>
         public static bool IsPrimitiveToken(this EdiToken token) {
             switch (token) {
                 case EdiToken.Integer:
@@ -93,6 +106,14 @@ namespace indice.Edi.Utilities
             return structureType;
         }
 
+		/// <summary>
+		/// Tries the parse.
+		/// </summary>
+		/// <returns><c>true</c>, if parse was tryed, <c>false</c> otherwise.</returns>
+		/// <param name="value">Value.</param>
+		/// <param name="picture">Picture.</param>
+		/// <param name="decimalMark">Decimal mark.</param>
+		/// <param name="number">Number.</param>
         public static bool TryParse(this string value, Picture? picture, char? decimalMark, out decimal number) {
             number = 0.0M;
             try {
@@ -104,11 +125,26 @@ namespace indice.Edi.Utilities
                 return false;
             }
         }
+		/// <summary>
+		/// Parses the edi date.
+		/// </summary>
+		/// <returns>The edi date.</returns>
+		/// <param name="value">Value.</param>
+		/// <param name="format">Format.</param>
+		/// <param name="culture">Culture.</param>
         public static DateTime ParseEdiDate(this string value, string format, CultureInfo culture = null) {
             var date = ParseEdiDateInternal(value, format, culture);
             return date.Value;
         }
 
+		/// <summary>
+		/// Tries the parse edi date.
+		/// </summary>
+		/// <returns><c>true</c>, if parse edi date was tryed, <c>false</c> otherwise.</returns>
+		/// <param name="value">Value.</param>
+		/// <param name="format">Format.</param>
+		/// <param name="culture">Culture.</param>
+		/// <param name="date">Date.</param>
         public static bool TryParseEdiDate(this string value, string format, CultureInfo culture, out DateTime date) {
             date = default(DateTime);
             var dateNullable = ParseEdiDateInternal(value, format, culture);
@@ -117,6 +153,13 @@ namespace indice.Edi.Utilities
             return dateNullable.HasValue;
         }
 
+		/// <summary>
+		/// Parses the edi date internal.
+		/// </summary>
+		/// <returns>The edi date internal.</returns>
+		/// <param name="value">Value.</param>
+		/// <param name="format">Format.</param>
+		/// <param name="culture">Culture.</param>
         private static DateTime? ParseEdiDateInternal(string value, string format, CultureInfo culture = null) {
             if (string.IsNullOrWhiteSpace(format))
                 throw new ArgumentOutOfRangeException(nameof(format));
@@ -136,6 +179,12 @@ namespace indice.Edi.Utilities
             return null;
         }
 
+		/// <summary>
+		/// Parse the specified value, picture and decimalMark.
+		/// </summary>
+		/// <param name="value">Value.</param>
+		/// <param name="picture">Picture.</param>
+		/// <param name="decimalMark">Decimal mark.</param>
         public static decimal? Parse(this string value, Picture? picture, char? decimalMark) {
             if (value != null)
                 value = value.TrimStart('Z'); // Z suppresses leading zeros
@@ -159,27 +208,83 @@ namespace indice.Edi.Utilities
             throw new EdiException("Could not convert string to decimal: {0}.".FormatWith(CultureInfo.InvariantCulture, value));
         }
 
+		/// <summary>
+		/// Tos the edi string.
+		/// </summary>
+		/// <returns>The edi string.</returns>
+		/// <param name="value">Value.</param>
+		/// <param name="picture">Picture.</param>
+		/// <param name="decimalMark">Decimal mark.</param>
         public static string ToEdiString(this float value, Picture? picture, char? decimalMark) =>
             ToEdiString((decimal?)value, picture, decimalMark);
 
+		/// <summary>
+		/// Tos the edi string.
+		/// </summary>
+		/// <returns>The edi string.</returns>
+		/// <param name="value">Value.</param>
+		/// <param name="picture">Picture.</param>
+		/// <param name="decimalMark">Decimal mark.</param>
         public static string ToEdiString(this double value, Picture? picture, char? decimalMark) =>
             ToEdiString((decimal?)value, picture, decimalMark);
 
+		/// <summary>
+		/// Tos the edi string.
+		/// </summary>
+		/// <returns>The edi string.</returns>
+		/// <param name="value">Value.</param>
+		/// <param name="picture">Picture.</param>
+		/// <param name="decimalMark">Decimal mark.</param>
         public static string ToEdiString(this decimal value, Picture? picture, char? decimalMark) =>
             ToEdiString((decimal?)value, picture, decimalMark);
 
+		/// <summary>
+		/// Tos the edi string.
+		/// </summary>
+		/// <returns>The edi string.</returns>
+		/// <param name="value">Value.</param>
+		/// <param name="picture">Picture.</param>
+		/// <param name="decimalMark">Decimal mark.</param>
         public static string ToEdiString(this long value, Picture? picture, char? decimalMark) =>
             ToEdiString((decimal?)value, picture, decimalMark);
 
+		/// <summary>
+		/// Tos the edi string.
+		/// </summary>
+		/// <returns>The edi string.</returns>
+		/// <param name="value">Value.</param>
+		/// <param name="picture">Picture.</param>
+		/// <param name="decimalMark">Decimal mark.</param>
         public static string ToEdiString(this float? value, Picture? picture, char? decimalMark) =>
             ToEdiString((decimal?)value, picture, decimalMark);
 
+		/// <summary>
+		/// Tos the edi string.
+		/// </summary>
+		/// <returns>The edi string.</returns>
+		/// <param name="value">Value.</param>
+		/// <param name="picture">Picture.</param>
+		/// <param name="decimalMark">Decimal mark.</param>
         public static string ToEdiString(this double? value, Picture? picture, char? decimalMark) =>
             ToEdiString((decimal?)value, picture, decimalMark);
         
+		/// <summary>
+		/// Tos the edi string.
+		/// </summary>
+		/// <returns>The edi string.</returns>
+		/// <param name="value">Value.</param>
+		/// <param name="picture">Picture.</param>
+		/// <param name="decimalMark">Decimal mark.</param>
         public static string ToEdiString(this long? value, Picture? picture, char? decimalMark) =>
             ToEdiString((decimal?)value, picture, decimalMark);
 
+		/// <summary>
+		/// Tos the edi string.
+		/// </summary>
+		/// <returns>The edi string.</returns>
+		/// <param name="value">Value.</param>
+		/// <param name="picture">Picture.</param>
+		/// <param name="decimalMark">Decimal mark.</param>
         public static string ToEdiString(this decimal? value, Picture? picture, char? decimalMark) {
             if (!value.HasValue)
                 return null;
@@ -201,6 +306,12 @@ namespace indice.Edi.Utilities
             return string.Format(NumberFormatInfo.InvariantInfo, "{0}", value);
         }
 
+		/// <summary>
+		/// Tos the edi string.
+		/// </summary>
+		/// <returns>The edi string.</returns>
+		/// <param name="value">Value.</param>
+		/// <param name="picture">Picture.</param>
         public static string ToEdiString(this int? value, Picture? picture) {
             if (!value.HasValue && !picture.HasValue)
                 return null;

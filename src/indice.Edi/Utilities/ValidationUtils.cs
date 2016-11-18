@@ -56,8 +56,16 @@ using System.Globalization;
 
 namespace indice.Edi.Utilities
 {
+	/// <summary>
+	/// Validation utils.
+	/// </summary>
     internal static class ValidationUtils
     {
+		/// <summary>
+		/// Arguments the not null or empty.
+		/// </summary>
+		/// <param name="value">Value.</param>
+		/// <param name="parameterName">Parameter name.</param>
         public static void ArgumentNotNullOrEmpty(string value, string parameterName)
         {
             if (value == null)
@@ -67,6 +75,11 @@ namespace indice.Edi.Utilities
                 throw new ArgumentException("'{0}' cannot be empty.".FormatWith(CultureInfo.InvariantCulture, parameterName), parameterName);
         }
 
+		/// <summary>
+		/// Arguments the type is enum.
+		/// </summary>
+		/// <param name="enumType">Enum type.</param>
+		/// <param name="parameterName">Parameter name.</param>
         public static void ArgumentTypeIsEnum(Type enumType, string parameterName)
         {
             ArgumentNotNull(enumType, "enumType");
@@ -75,6 +88,11 @@ namespace indice.Edi.Utilities
                 throw new ArgumentException("Type {0} is not an Enum.".FormatWith(CultureInfo.InvariantCulture, enumType), parameterName);
         }
 
+		/// <summary>
+		/// Arguments the not null.
+		/// </summary>
+		/// <param name="value">Value.</param>
+		/// <param name="parameterName">Parameter name.</param>
         public static void ArgumentNotNull(object value, string parameterName)
         {
             if (value == null)

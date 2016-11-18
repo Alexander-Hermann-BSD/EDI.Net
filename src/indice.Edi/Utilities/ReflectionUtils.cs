@@ -39,47 +39,137 @@ using System.Linq;
 namespace indice.Edi.Utilities
 {
 #if (DOTNET || PORTABLE || PORTABLE40)
-    internal enum MemberTypes
+  	/// <summary>
+  	/// Member types.
+  	/// </summary>
+	internal enum MemberTypes
     {
+		/// <summary>
+		/// The property.
+		/// </summary>
         Property = 0,
+		/// <summary>
+		/// The field.
+		/// </summary>
         Field = 1,
+		/// <summary>
+		/// The event.
+		/// </summary>
         Event = 2,
+		/// <summary>
+		/// The method.
+		/// </summary>
         Method = 3,
+		/// <summary>
+		/// The other.
+		/// </summary>
         Other = 4
     }
 #endif
 
 #if PORTABLE
+	/// <summary>
+	/// Binding flags.
+	/// </summary>
     [Flags]
     internal enum BindingFlags
     {
+		/// <summary>
+		/// The default.
+		/// </summary>
         Default = 0,
-        IgnoreCase = 1,
-        DeclaredOnly = 2,
-        Instance = 4,
-        Static = 8,
-        Public = 16,
-        NonPublic = 32,
-        FlattenHierarchy = 64,
-        InvokeMethod = 256,
-        CreateInstance = 512,
-        GetField = 1024,
-        SetField = 2048,
-        GetProperty = 4096,
-        SetProperty = 8192,
-        PutDispProperty = 16384,
-        ExactBinding = 65536,
-        PutRefDispProperty = 32768,
-        SuppressChangeType = 131072,
-        OptionalParamBinding = 262144,
-        IgnoreReturn = 16777216
+        /// <summary>
+        /// The ignore case.
+        /// </summary>
+		IgnoreCase = 1,
+        /// <summary>
+        /// The declared only.
+        /// </summary>
+		DeclaredOnly = 2,
+        /// <summary>
+        /// The instance.
+        /// </summary>
+		Instance = 4,
+        /// <summary>
+        /// The static.
+        /// </summary>
+		Static = 8,
+        /// <summary>
+        /// The public.
+        /// </summary>
+		Public = 16,
+        /// <summary>
+        /// The non public.
+        /// </summary>
+		NonPublic = 32,
+        /// <summary>
+        /// The flatten hierarchy.
+        /// </summary>
+		FlattenHierarchy = 64,
+        /// <summary>
+        /// The invoke method.
+        /// </summary>
+		InvokeMethod = 256,
+        /// <summary>
+        /// The create instance.
+        /// </summary>
+		CreateInstance = 512,
+        /// <summary>
+        /// The get field.
+        /// </summary>
+		GetField = 1024,
+        /// <summary>
+        /// The set field.
+        /// </summary>
+		SetField = 2048,
+        /// <summary>
+        /// The get property.
+        /// </summary>
+		GetProperty = 4096,
+        /// <summary>
+        /// The set property.
+        /// </summary>
+		SetProperty = 8192,
+        /// <summary>
+        /// The put disp property.
+        /// </summary>
+		PutDispProperty = 16384,
+        /// <summary>
+        /// The exact binding.
+        /// </summary>
+		ExactBinding = 65536,
+        /// <summary>
+        /// The put reference disp property.
+        /// </summary>
+		PutRefDispProperty = 32768,
+        /// <summary>
+        /// The type of the suppress change.
+        /// </summary>
+		SuppressChangeType = 131072,
+        /// <summary>
+        /// The optional parameter binding.
+        /// </summary>
+		OptionalParamBinding = 262144,
+        /// <summary>
+        /// The ignore return.
+        /// </summary>
+		IgnoreReturn = 16777216
     }
 #endif
 
+	/// <summary>
+	/// Reflection utils.
+	/// </summary>
     internal static class ReflectionUtils
     {
+		/// <summary>
+		/// The empty types.
+		/// </summary>
         public static readonly Type[] EmptyTypes;
 
+		/// <summary>
+		/// Initializes the <see cref="T:indice.Edi.Utilities.ReflectionUtils"/> class.
+		/// </summary>
         static ReflectionUtils() {
 #if !(PORTABLE40 || PORTABLE)
             EmptyTypes = Type.EmptyTypes;
@@ -88,6 +178,11 @@ namespace indice.Edi.Utilities
 #endif
         }
 
+		/// <summary>
+		/// Ises the virtual.
+		/// </summary>
+		/// <returns><c>true</c>, if virtual was ised, <c>false</c> otherwise.</returns>
+		/// <param name="propertyInfo">Property info.</param>
         public static bool IsVirtual(this PropertyInfo propertyInfo) {
             ValidationUtils.ArgumentNotNull(propertyInfo, "propertyInfo");
 
@@ -102,6 +197,11 @@ namespace indice.Edi.Utilities
             return false;
         }
 
+		/// <summary>
+		/// Gets the base definition.
+		/// </summary>
+		/// <returns>The base definition.</returns>
+		/// <param name="propertyInfo">Property info.</param>
         public static MethodInfo GetBaseDefinition(this PropertyInfo propertyInfo) {
             ValidationUtils.ArgumentNotNull(propertyInfo, "propertyInfo");
 
@@ -116,6 +216,11 @@ namespace indice.Edi.Utilities
             return null;
         }
 
+		/// <summary>
+		/// Ises the public.
+		/// </summary>
+		/// <returns><c>true</c>, if public was ised, <c>false</c> otherwise.</returns>
+		/// <param name="property">Property.</param>
         public static bool IsPublic(PropertyInfo property) {
             if (property.GetGetMethod() != null && property.GetGetMethod().IsPublic)
                 return true;
@@ -125,11 +230,20 @@ namespace indice.Edi.Utilities
             return false;
         }
 
+		/// <summary>
+		/// Gets the type of the object.
+		/// </summary>
+		/// <returns>The object type.</returns>
+		/// <param name="v">V.</param>
         public static Type GetObjectType(object v) {
             return (v != null) ? v.GetType() : null;
         }
         
-
+		/// <summary>
+		/// Removes the assembly details.
+		/// </summary>
+		/// <returns>The assembly details.</returns>
+		/// <param name="fullyQualifiedTypeName">Fully qualified type name.</param>
         private static string RemoveAssemblyDetails(string fullyQualifiedTypeName) {
             StringBuilder builder = new StringBuilder();
 
@@ -167,6 +281,12 @@ namespace indice.Edi.Utilities
             return builder.ToString();
         }
 
+		/// <summary>
+		/// Hases the default constructor.
+		/// </summary>
+		/// <returns><c>true</c>, if default constructor was hased, <c>false</c> otherwise.</returns>
+		/// <param name="t">T.</param>
+		/// <param name="nonPublic">If set to <c>true</c> non public.</param>
         public static bool HasDefaultConstructor(Type t, bool nonPublic) {
             ValidationUtils.ArgumentNotNull(t, "t");
 
@@ -176,10 +296,21 @@ namespace indice.Edi.Utilities
             return (GetDefaultConstructor(t, nonPublic) != null);
         }
 
+		/// <summary>
+		/// Gets the default constructor.
+		/// </summary>
+		/// <returns>The default constructor.</returns>
+		/// <param name="t">T.</param>
         public static ConstructorInfo GetDefaultConstructor(Type t) {
             return GetDefaultConstructor(t, false);
         }
 
+		/// <summary>
+		/// Gets the default constructor.
+		/// </summary>
+		/// <returns>The default constructor.</returns>
+		/// <param name="t">T.</param>
+		/// <param name="nonPublic">If set to <c>true</c> non public.</param>
         public static ConstructorInfo GetDefaultConstructor(Type t, bool nonPublic) {
             BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public;
             if (nonPublic)
@@ -188,6 +319,11 @@ namespace indice.Edi.Utilities
             return t.GetConstructors(bindingFlags).SingleOrDefault(c => !c.GetParameters().Any());
         }
 
+		/// <summary>
+		/// Ises the nullable.
+		/// </summary>
+		/// <returns><c>true</c>, if nullable was ised, <c>false</c> otherwise.</returns>
+		/// <param name="t">T.</param>
         public static bool IsNullable(Type t) {
             ValidationUtils.ArgumentNotNull(t, "t");
 
@@ -197,18 +333,34 @@ namespace indice.Edi.Utilities
             return true;
         }
 
+		/// <summary>
+		/// Ises the type of the nullable.
+		/// </summary>
+		/// <returns><c>true</c>, if nullable type was ised, <c>false</c> otherwise.</returns>
+		/// <param name="t">T.</param>
         public static bool IsNullableType(Type t) {
             ValidationUtils.ArgumentNotNull(t, "t");
 
             return (t.IsGenericType() && t.GetGenericTypeDefinition() == typeof(Nullable<>));
         }
 
+		/// <summary>
+		/// Ensures the type of the not nullable.
+		/// </summary>
+		/// <returns>The not nullable type.</returns>
+		/// <param name="t">T.</param>
         public static Type EnsureNotNullableType(Type t) {
             return (IsNullableType(t))
                 ? Nullable.GetUnderlyingType(t)
                 : t;
         }
 
+		/// <summary>
+		/// Ises the generic definition.
+		/// </summary>
+		/// <returns><c>true</c>, if generic definition was ised, <c>false</c> otherwise.</returns>
+		/// <param name="type">Type.</param>
+		/// <param name="genericInterfaceDefinition">Generic interface definition.</param>
         public static bool IsGenericDefinition(Type type, Type genericInterfaceDefinition) {
             if (!type.IsGenericType())
                 return false;
@@ -217,11 +369,24 @@ namespace indice.Edi.Utilities
             return (t == genericInterfaceDefinition);
         }
 
+		/// <summary>
+		/// Implementses the generic definition.
+		/// </summary>
+		/// <returns><c>true</c>, if generic definition was implementsed, <c>false</c> otherwise.</returns>
+		/// <param name="type">Type.</param>
+		/// <param name="genericInterfaceDefinition">Generic interface definition.</param>
         public static bool ImplementsGenericDefinition(Type type, Type genericInterfaceDefinition) {
             Type implementingType;
             return ImplementsGenericDefinition(type, genericInterfaceDefinition, out implementingType);
         }
 
+		/// <summary>
+		/// Implementses the generic definition.
+		/// </summary>
+		/// <returns><c>true</c>, if generic definition was implementsed, <c>false</c> otherwise.</returns>
+		/// <param name="type">Type.</param>
+		/// <param name="genericInterfaceDefinition">Generic interface definition.</param>
+		/// <param name="implementingType">Implementing type.</param>
         public static bool ImplementsGenericDefinition(Type type, Type genericInterfaceDefinition, out Type implementingType) {
             ValidationUtils.ArgumentNotNull(type, "type");
             ValidationUtils.ArgumentNotNull(genericInterfaceDefinition, "genericInterfaceDefinition");
@@ -255,11 +420,24 @@ namespace indice.Edi.Utilities
             return false;
         }
 
+		/// <summary>
+		/// Inheritses the generic definition.
+		/// </summary>
+		/// <returns><c>true</c>, if generic definition was inheritsed, <c>false</c> otherwise.</returns>
+		/// <param name="type">Type.</param>
+		/// <param name="genericClassDefinition">Generic class definition.</param>
         public static bool InheritsGenericDefinition(Type type, Type genericClassDefinition) {
             Type implementingType;
             return InheritsGenericDefinition(type, genericClassDefinition, out implementingType);
         }
 
+		/// <summary>
+		/// Inheritses the generic definition.
+		/// </summary>
+		/// <returns><c>true</c>, if generic definition was inheritsed, <c>false</c> otherwise.</returns>
+		/// <param name="type">Type.</param>
+		/// <param name="genericClassDefinition">Generic class definition.</param>
+		/// <param name="implementingType">Implementing type.</param>
         public static bool InheritsGenericDefinition(Type type, Type genericClassDefinition, out Type implementingType) {
             ValidationUtils.ArgumentNotNull(type, "type");
             ValidationUtils.ArgumentNotNull(genericClassDefinition, "genericClassDefinition");
@@ -270,6 +448,13 @@ namespace indice.Edi.Utilities
             return InheritsGenericDefinitionInternal(type, genericClassDefinition, out implementingType);
         }
 
+		/// <summary>
+		/// Inheritses the generic definition internal.
+		/// </summary>
+		/// <returns><c>true</c>, if generic definition internal was inheritsed, <c>false</c> otherwise.</returns>
+		/// <param name="currentType">Current type.</param>
+		/// <param name="genericClassDefinition">Generic class definition.</param>
+		/// <param name="implementingType">Implementing type.</param>
         private static bool InheritsGenericDefinitionInternal(Type currentType, Type genericClassDefinition, out Type implementingType) {
             if (currentType.IsGenericType()) {
                 Type currentGenericClassDefinition = currentType.GetGenericTypeDefinition();
@@ -313,6 +498,12 @@ namespace indice.Edi.Utilities
             throw new Exception("Type {0} is not a collection.".FormatWith(CultureInfo.InvariantCulture, type));
         }
 
+		/// <summary>
+		/// Gets the dictionary key value types.
+		/// </summary>
+		/// <param name="dictionaryType">Dictionary type.</param>
+		/// <param name="keyType">Key type.</param>
+		/// <param name="valueType">Value type.</param>
         public static void GetDictionaryKeyValueTypes(Type dictionaryType, out Type keyType, out Type valueType) {
             ValidationUtils.ArgumentNotNull(dictionaryType, "type");
 
@@ -502,6 +693,12 @@ namespace indice.Edi.Utilities
             }
         }
 
+		/// <summary>
+		/// Gets the fields and properties.
+		/// </summary>
+		/// <returns>The fields and properties.</returns>
+		/// <param name="type">Type.</param>
+		/// <param name="bindingAttr">Binding attr.</param>
         public static List<MemberInfo> GetFieldsAndProperties(Type type, BindingFlags bindingAttr) {
             List<MemberInfo> targetMembers = new List<MemberInfo>();
 
@@ -539,6 +736,12 @@ namespace indice.Edi.Utilities
             return distinctMembers;
         }
 
+		/// <summary>
+		/// Ises the overriden generic member.
+		/// </summary>
+		/// <returns><c>true</c>, if overriden generic member was ised, <c>false</c> otherwise.</returns>
+		/// <param name="memberInfo">Member info.</param>
+		/// <param name="bindingAttr">Binding attr.</param>
         private static bool IsOverridenGenericMember(MemberInfo memberInfo, BindingFlags bindingAttr) {
             if (memberInfo.MemberType() != MemberTypes.Property)
                 return false;
@@ -563,10 +766,23 @@ namespace indice.Edi.Utilities
             return true;
         }
 
+		/// <summary>
+		/// Gets the attribute.
+		/// </summary>
+		/// <returns>The attribute.</returns>
+		/// <param name="attributeProvider">Attribute provider.</param>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
         public static T GetAttribute<T>(object attributeProvider) where T : Attribute {
             return GetAttribute<T>(attributeProvider, true);
         }
 
+		/// <summary>
+		/// Gets the attribute.
+		/// </summary>
+		/// <returns>The attribute.</returns>
+		/// <param name="attributeProvider">Attribute provider.</param>
+		/// <param name="inherit">If set to <c>true</c> inherit.</param>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
         public static T GetAttribute<T>(object attributeProvider, bool inherit) where T : Attribute {
             T[] attributes = GetAttributes<T>(attributeProvider, inherit);
 
@@ -574,6 +790,13 @@ namespace indice.Edi.Utilities
         }
 
 #if !(DOTNET || PORTABLE)
+		/// <summary>
+		/// Gets the attributes.
+		/// </summary>
+		/// <returns>The attributes.</returns>
+		/// <param name="attributeProvider">Attribute provider.</param>
+		/// <param name="inherit">If set to <c>true</c> inherit.</param>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
         public static T[] GetAttributes<T>(object attributeProvider, bool inherit) where T : Attribute
         {
             Attribute[] a = GetAttributes(attributeProvider, typeof(T), inherit);
@@ -585,6 +808,13 @@ namespace indice.Edi.Utilities
             return a.Cast<T>().ToArray();
         }
 
+		/// <summary>
+		/// Gets the attributes.
+		/// </summary>
+		/// <returns>The attributes.</returns>
+		/// <param name="attributeProvider">Attribute provider.</param>
+		/// <param name="attributeType">Attribute type.</param>
+		/// <param name="inherit">If set to <c>true</c> inherit.</param>
         public static Attribute[] GetAttributes(object attributeProvider, Type attributeType, bool inherit)
         {
             ValidationUtils.ArgumentNotNull(attributeProvider, "attributeProvider");
@@ -645,10 +875,25 @@ namespace indice.Edi.Utilities
 #endif
         }
 #else
+
+		/// <summary>
+		/// Gets the attributes.
+		/// </summary>
+		/// <returns>The attributes.</returns>
+		/// <param name="attributeProvider">Attribute provider.</param>
+		/// <param name="inherit">If set to <c>true</c> inherit.</param>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
         public static T[] GetAttributes<T>(object attributeProvider, bool inherit) where T : Attribute {
             return GetAttributes(attributeProvider, typeof(T), inherit).Cast<T>().ToArray();
         }
 
+		/// <summary>
+		/// Gets the attributes.
+		/// </summary>
+		/// <returns>The attributes.</returns>
+		/// <param name="provider">Provider.</param>
+		/// <param name="attributeType">Attribute type.</param>
+		/// <param name="inherit">If set to <c>true</c> inherit.</param>
         public static Attribute[] GetAttributes(object provider, Type attributeType, bool inherit) {
             if (provider is Type) {
                 Type t = (Type)provider;
@@ -681,6 +926,12 @@ namespace indice.Edi.Utilities
         }
 #endif
 
+		/// <summary>
+		/// Splits the name of the fully qualified type.
+		/// </summary>
+		/// <param name="fullyQualifiedTypeName">Fully qualified type name.</param>
+		/// <param name="typeName">Type name.</param>
+		/// <param name="assemblyName">Assembly name.</param>
         public static void SplitFullyQualifiedTypeName(string fullyQualifiedTypeName, out string typeName, out string assemblyName) {
             int? assemblyDelimiterIndex = GetAssemblyDelimiterIndex(fullyQualifiedTypeName);
 
@@ -693,6 +944,11 @@ namespace indice.Edi.Utilities
             }
         }
 
+		/// <summary>
+		/// Gets the index of the assembly delimiter.
+		/// </summary>
+		/// <returns>The assembly delimiter index.</returns>
+		/// <param name="fullyQualifiedTypeName">Fully qualified type name.</param>
         private static int? GetAssemblyDelimiterIndex(string fullyQualifiedTypeName) {
             // we need to get the first comma following all surrounded in brackets because of generic types
             // e.g. System.Collections.Generic.Dictionary`2[[System.String, mscorlib,Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
@@ -716,6 +972,12 @@ namespace indice.Edi.Utilities
             return null;
         }
 
+		/// <summary>
+		/// Gets the type of the member info from.
+		/// </summary>
+		/// <returns>The member info from type.</returns>
+		/// <param name="targetType">Target type.</param>
+		/// <param name="memberInfo">Member info.</param>
         public static MemberInfo GetMemberInfoFromType(Type targetType, MemberInfo memberInfo) {
             const BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
 
@@ -731,7 +993,13 @@ namespace indice.Edi.Utilities
             }
         }
 
-        public static IEnumerable<FieldInfo> GetFields(Type targetType, BindingFlags bindingAttr) {
+        /// <summary>
+        /// Gets the fields.
+        /// </summary>
+        /// <returns>The fields.</returns>
+        /// <param name="targetType">Target type.</param>
+        /// <param name="bindingAttr">Binding attr.</param>
+		public static IEnumerable<FieldInfo> GetFields(Type targetType, BindingFlags bindingAttr) {
             ValidationUtils.ArgumentNotNull(targetType, "targetType");
 
             List<MemberInfo> fieldInfos = new List<MemberInfo>(targetType.GetFields(bindingAttr));
@@ -745,6 +1013,12 @@ namespace indice.Edi.Utilities
         }
 
 #if !PORTABLE
+		/// <summary>
+		/// Gets the child private fields.
+		/// </summary>
+		/// <param name="initialFields">Initial fields.</param>
+		/// <param name="targetType">Target type.</param>
+		/// <param name="bindingAttr">Binding attr.</param>
         private static void GetChildPrivateFields(IList<MemberInfo> initialFields, Type targetType, BindingFlags bindingAttr) {
             // fix weirdness with private FieldInfos only being returned for the current Type
             // find base type fields and add them to result
@@ -763,6 +1037,12 @@ namespace indice.Edi.Utilities
         }
 #endif
 
+		/// <summary>
+		/// Gets the properties.
+		/// </summary>
+		/// <returns>The properties.</returns>
+		/// <param name="targetType">Target type.</param>
+		/// <param name="bindingAttr">Binding attr.</param>
         public static IEnumerable<PropertyInfo> GetProperties(Type targetType, BindingFlags bindingAttr) {
             ValidationUtils.ArgumentNotNull(targetType, "targetType");
 
@@ -789,12 +1069,24 @@ namespace indice.Edi.Utilities
             return propertyInfos;
         }
 
+		/// <summary>
+		/// Removes the flag.
+		/// </summary>
+		/// <returns>The flag.</returns>
+		/// <param name="bindingAttr">Binding attr.</param>
+		/// <param name="flag">Flag.</param>
         public static BindingFlags RemoveFlag(this BindingFlags bindingAttr, BindingFlags flag) {
             return ((bindingAttr & flag) == flag)
                 ? bindingAttr ^ flag
                 : bindingAttr;
         }
 
+		/// <summary>
+		/// Gets the child private properties.
+		/// </summary>
+		/// <param name="initialProperties">Initial properties.</param>
+		/// <param name="targetType">Target type.</param>
+		/// <param name="bindingAttr">Binding attr.</param>
         private static void GetChildPrivateProperties(IList<PropertyInfo> initialProperties, Type targetType, BindingFlags bindingAttr) {
             // fix weirdness with private PropertyInfos only being returned for the current Type
             // find base type properties and add them to result
@@ -842,6 +1134,13 @@ namespace indice.Edi.Utilities
             }
         }
 
+		/// <summary>
+		/// Ises the method overridden.
+		/// </summary>
+		/// <returns><c>true</c>, if method overridden was ised, <c>false</c> otherwise.</returns>
+		/// <param name="currentType">Current type.</param>
+		/// <param name="methodDeclaringType">Method declaring type.</param>
+		/// <param name="method">Method.</param>
         public static bool IsMethodOverridden(Type currentType, Type methodDeclaringType, string method) {
             bool isMethodOverriden = currentType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                 .Any(info =>
@@ -854,6 +1153,11 @@ namespace indice.Edi.Utilities
             return isMethodOverriden;
         }
 
+		/// <summary>
+		/// Gets the default value.
+		/// </summary>
+		/// <returns>The default value.</returns>
+		/// <param name="type">Type.</param>
         public static object GetDefaultValue(Type type) {
             if (!type.IsValueType())
                 return null;

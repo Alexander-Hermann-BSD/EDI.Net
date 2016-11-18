@@ -32,24 +32,48 @@ namespace indice.Edi.Utilities
     /// </summary>
     internal class StringBuffer
     {
+		/// <summary>
+		/// The buffer.
+		/// </summary>
         private char[] _buffer;
-        private int _position;
+        /// <summary>
+        /// The position.
+        /// </summary>
+		private int _position;
 
+		/// <summary>
+		/// The empty buffer.
+		/// </summary>
         private static readonly char[] EmptyBuffer = new char[0];
 
+		/// <summary>
+		/// Gets or sets the position.
+		/// </summary>
+		/// <value>The position.</value>
         public int Position {
             get { return _position; }
             set { _position = value; }
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:indice.Edi.Utilities.StringBuffer"/> class.
+		/// </summary>
         public StringBuffer() {
             _buffer = EmptyBuffer;
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:indice.Edi.Utilities.StringBuffer"/> class.
+		/// </summary>
+		/// <param name="initalSize">Inital size.</param>
         public StringBuffer(int initalSize) {
             _buffer = new char[initalSize];
         }
 
+		/// <summary>
+		/// Append the specified value.
+		/// </summary>
+		/// <param name="value">Value.</param>
         public void Append(char value) {
             // test if the buffer array is large enough to take the value
             if (_position == _buffer.Length)
@@ -59,6 +83,12 @@ namespace indice.Edi.Utilities
             _buffer[_position++] = value;
         }
 
+		/// <summary>
+		/// Append the specified buffer, startIndex and count.
+		/// </summary>
+		/// <param name="buffer">Buffer.</param>
+		/// <param name="startIndex">Start index.</param>
+		/// <param name="count">Count.</param>
         public void Append(char[] buffer, int startIndex, int count) {
             if (_position + count >= _buffer.Length)
                 EnsureSize(count);
@@ -68,11 +98,18 @@ namespace indice.Edi.Utilities
             _position += count;
         }
 
+		/// <summary>
+		/// Clear this instance.
+		/// </summary>
         public void Clear() {
             _buffer = EmptyBuffer;
             _position = 0;
         }
 
+		/// <summary>
+		/// Ensures the size.
+		/// </summary>
+		/// <param name="appendLength">Append length.</param>
         private void EnsureSize(int appendLength) {
             char[] newBuffer = new char[(_position + appendLength) * 2];
 
@@ -81,15 +118,29 @@ namespace indice.Edi.Utilities
             _buffer = newBuffer;
         }
 
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:indice.Edi.Utilities.StringBuffer"/>.
+		/// </summary>
+		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:indice.Edi.Utilities.StringBuffer"/>.</returns>
         public override string ToString() {
             return ToString(0, _position);
         }
 
+		/// <summary>
+		/// Tos the string.
+		/// </summary>
+		/// <returns>The string.</returns>
+		/// <param name="start">Start.</param>
+		/// <param name="length">Length.</param>
         public string ToString(int start, int length) {
             // TODO: validation
             return new string(_buffer, start, length);
         }
 
+		/// <summary>
+		/// Gets the internal buffer.
+		/// </summary>
+		/// <returns>The internal buffer.</returns>
         public char[] GetInternalBuffer() {
             return _buffer;
         }

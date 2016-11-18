@@ -27,24 +27,49 @@ using System;
 
 namespace indice.Edi.Utilities
 {
-
+	/// <summary>
+	/// Name table.
+	/// </summary>
     internal class NameTable
     {
-        // used to defeat hashtable DoS attack where someone passes in lots of strings that hash to the same hash code
-        private static readonly int HashCodeRandomizer;
+		/// <summary>
+		/// used to defeat hashtable DoS attack where someone passes in lots of strings that hash to the same hash code
+        /// </summary>
+		private static readonly int HashCodeRandomizer;
 
+		/// <summary>
+		/// The count.
+		/// </summary>
         private int _count;
+		/// <summary>
+		/// The entries.
+		/// </summary>
         private Entry[] _entries;
-        private int _mask = 31;
+        /// <summary>
+        /// The mask.
+        /// </summary>
+		private int _mask = 31;
 
+		/// <summary>
+		/// Initializes the <see cref="T:indice.Edi.Utilities.NameTable"/> class.
+		/// </summary>
         static NameTable() {
             HashCodeRandomizer = Environment.TickCount;
         }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:indice.Edi.Utilities.NameTable"/> class.
+		/// </summary>
         public NameTable() {
             _entries = new Entry[_mask + 1];
         }
 
+		/// <summary>
+		/// Get the specified key, start and length.
+		/// </summary>
+		/// <param name="key">Key.</param>
+		/// <param name="start">Start.</param>
+		/// <param name="length">Length.</param>
         public string Get(char[] key, int start, int length) {
             if (length == 0)
                 return string.Empty;
@@ -66,6 +91,10 @@ namespace indice.Edi.Utilities
             return null;
         }
 
+		/// <summary>
+		/// Add the specified key.
+		/// </summary>
+		/// <param name="key">Key.</param>
         public string Add(string key) {
             if (key == null)
                 throw new ArgumentNullException(nameof(key));
@@ -89,7 +118,12 @@ namespace indice.Edi.Utilities
             return AddEntry(key, hashCode);
         }
 
-
+		/// <summary>
+		/// Adds the entry.
+		/// </summary>
+		/// <returns>The entry.</returns>
+		/// <param name="str">String.</param>
+		/// <param name="hashCode">Hash code.</param>
         private string AddEntry(string str, int hashCode) {
             int index = hashCode & _mask;
             Entry entry = new Entry(str, hashCode, _entries[index]);
@@ -100,6 +134,9 @@ namespace indice.Edi.Utilities
             return entry.Value;
         }
 
+		/// <summary>
+		/// Grow this instance.
+		/// </summary>
         private void Grow() {
             Entry[] entries = _entries;
             int newMask = (_mask * 2) + 1;
@@ -118,6 +155,14 @@ namespace indice.Edi.Utilities
             _mask = newMask;
         }
 
+		/// <summary>
+		/// Texts the equals.
+		/// </summary>
+		/// <returns><c>true</c>, if equals was texted, <c>false</c> otherwise.</returns>
+		/// <param name="str1">Str1.</param>
+		/// <param name="str2">Str2.</param>
+		/// <param name="str2Start">Str2 start.</param>
+		/// <param name="str2Length">Str2 length.</param>
         private static bool TextEquals(string str1, char[] str2, int str2Start, int str2Length) {
             if (str1.Length != str2Length)
                 return false;
@@ -129,6 +174,9 @@ namespace indice.Edi.Utilities
             return true;
         }
 
+		/// <summary>
+		/// Entry.
+		/// </summary>
         private class Entry
         {
             internal readonly string Value;

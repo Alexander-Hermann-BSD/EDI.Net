@@ -34,6 +34,9 @@ using System.Globalization;
 
 namespace indice.Edi.Utilities
 {
+	/// <summary>
+	/// Collection utils.
+	/// </summary>
     internal static class CollectionUtils
     {
         /// <summary>
@@ -72,6 +75,11 @@ namespace indice.Edi.Utilities
         }
 
 #if (NET20 || NET35 || PORTABLE40)
+		/// <summary>
+		/// Ises the type of the dictionary.
+		/// </summary>
+		/// <returns><c>true</c>, if dictionary type was ised, <c>false</c> otherwise.</returns>
+		/// <param name="type">Type.</param>
         public static void AddRange<T>(this IList<T> initial, IEnumerable collection)
         {
             ValidationUtils.ArgumentNotNull(initial, "initial");
@@ -81,6 +89,11 @@ namespace indice.Edi.Utilities
         }
 #endif
 
+		/// <summary>
+		/// Ises the type of the dictionary.
+		/// </summary>
+		/// <returns><c>true</c>, if dictionary type was ised, <c>false</c> otherwise.</returns>
+		/// <param name="type">Type.</param>
         public static bool IsDictionaryType(Type type)
         {
             ValidationUtils.ArgumentNotNull(type, "type");
@@ -97,6 +110,11 @@ namespace indice.Edi.Utilities
             return false;
         }
 
+		/// <summary>
+		/// Ises the type of the collection.
+		/// </summary>
+		/// <returns><c>true</c>, if collection type was ised, <c>false</c> otherwise.</returns>
+		/// <param name="type">Type.</param>
         public static bool IsCollectionType(this Type type) {
             ValidationUtils.ArgumentNotNull(type, "type");
 
@@ -112,6 +130,12 @@ namespace indice.Edi.Utilities
             return false;
         }
 
+		/// <summary>
+		/// Resolves the enumerable collection constructor.
+		/// </summary>
+		/// <returns>The enumerable collection constructor.</returns>
+		/// <param name="collectionType">Collection type.</param>
+		/// <param name="collectionItemType">Collection item type.</param>
         public static ConstructorInfo ResolveEnumerableCollectionConstructor(Type collectionType, Type collectionItemType)
         {
             Type genericEnumerable = typeof(IEnumerable<>).MakeGenericType(collectionItemType);
@@ -142,11 +166,26 @@ namespace indice.Edi.Utilities
             return match;
         }
 
+		/// <summary>
+		/// Adds the distinct.
+		/// </summary>
+		/// <returns><c>true</c>, if distinct was added, <c>false</c> otherwise.</returns>
+		/// <param name="list">List.</param>
+		/// <param name="value">Value.</param>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
         public static bool AddDistinct<T>(this IList<T> list, T value)
         {
             return list.AddDistinct(value, EqualityComparer<T>.Default);
         }
 
+		/// <summary>
+		/// Adds the distinct.
+		/// </summary>
+		/// <returns><c>true</c>, if distinct was added, <c>false</c> otherwise.</returns>
+		/// <param name="list">List.</param>
+		/// <param name="value">Value.</param>
+		/// <param name="comparer">Comparer.</param>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
         public static bool AddDistinct<T>(this IList<T> list, T value, IEqualityComparer<T> comparer)
         {
             if (list.ContainsValue(value, comparer))
@@ -157,6 +196,14 @@ namespace indice.Edi.Utilities
         }
 
         // this is here because LINQ Bridge doesn't support Contains with IEqualityComparer<T>
+		/// <summary>
+		/// Containses the value.
+		/// </summary>
+		/// <returns><c>true</c>, if value was containsed, <c>false</c> otherwise.</returns>
+		/// <param name="source">Source.</param>
+		/// <param name="value">Value.</param>
+		/// <param name="comparer">Comparer.</param>
+		/// <typeparam name="TSource">The 1st type parameter.</typeparam>
         public static bool ContainsValue<TSource>(this IEnumerable<TSource> source, TSource value, IEqualityComparer<TSource> comparer)
         {
             if (comparer == null)
@@ -174,6 +221,14 @@ namespace indice.Edi.Utilities
             return false;
         }
 
+		/// <summary>
+		/// Adds the range distinct.
+		/// </summary>
+		/// <returns><c>true</c>, if range distinct was added, <c>false</c> otherwise.</returns>
+		/// <param name="list">List.</param>
+		/// <param name="values">Values.</param>
+		/// <param name="comparer">Comparer.</param>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
         public static bool AddRangeDistinct<T>(this IList<T> list, IEnumerable<T> values, IEqualityComparer<T> comparer)
         {
             bool allAdded = true;
@@ -186,6 +241,13 @@ namespace indice.Edi.Utilities
             return allAdded;
         }
 
+		/// <summary>
+		/// Indexs the of.
+		/// </summary>
+		/// <returns>The of.</returns>
+		/// <param name="collection">Collection.</param>
+		/// <param name="predicate">Predicate.</param>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
         public static int IndexOf<T>(this IEnumerable<T> collection, Func<T, bool> predicate)
         {
             int index = 0;
@@ -200,6 +262,12 @@ namespace indice.Edi.Utilities
             return -1;
         }
 
+		/// <summary>
+		/// Contains the specified list, value and comparer.
+		/// </summary>
+		/// <param name="list">List.</param>
+		/// <param name="value">Value.</param>
+		/// <param name="comparer">Comparer.</param>
         public static bool Contains(this IEnumerable list, object value, IEqualityComparer comparer)
         {
             foreach (object item in list)
@@ -234,6 +302,12 @@ namespace indice.Edi.Utilities
             return -1;
         }
 
+		/// <summary>
+		/// Gets the dimensions.
+		/// </summary>
+		/// <returns>The dimensions.</returns>
+		/// <param name="values">Values.</param>
+		/// <param name="dimensionsCount">Dimensions count.</param>
         private static IList<int> GetDimensions(IList values, int dimensionsCount)
         {
             IList<int> dimensions = new List<int>();
@@ -260,6 +334,12 @@ namespace indice.Edi.Utilities
             return dimensions;
         }
 
+		/// <summary>
+		/// Copies from jagged to multidimensional array.
+		/// </summary>
+		/// <param name="values">Values.</param>
+		/// <param name="multidimensionalArray">Multidimensional array.</param>
+		/// <param name="indices">Indices.</param>
         private static void CopyFromJaggedToMultidimensionalArray(IList values, Array multidimensionalArray, int[] indices)
         {
             int dimension = indices.Length;
@@ -288,6 +368,12 @@ namespace indice.Edi.Utilities
             }
         }
 
+		/// <summary>
+		/// Jaggeds the array get value.
+		/// </summary>
+		/// <returns>The array get value.</returns>
+		/// <param name="values">Values.</param>
+		/// <param name="indices">Indices.</param>
         private static object JaggedArrayGetValue(IList values, int[] indices)
         {
             IList currentList = values;
@@ -302,6 +388,13 @@ namespace indice.Edi.Utilities
             return currentList;
         }
 
+		/// <summary>
+		/// Tos the multidimensional array.
+		/// </summary>
+		/// <returns>The multidimensional array.</returns>
+		/// <param name="values">Values.</param>
+		/// <param name="type">Type.</param>
+		/// <param name="rank">Rank.</param>
         public static Array ToMultidimensionalArray(IList values, Type type, int rank)
         {
             IList<int> dimensions = GetDimensions(values, rank);

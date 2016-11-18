@@ -32,31 +32,90 @@ using System.Linq;
 
 namespace indice.Edi.Utilities
 {
+	/// <summary>
+	/// String utils.
+	/// </summary>
     static class StringUtils
     {
+		/// <summary>
+		/// The carriage return line feed.
+		/// </summary>
         public const string CarriageReturnLineFeed = "\r\n";
-        public const string Empty = "";
-        public const char CarriageReturn = '\r';
-        public const char LineFeed = '\n';
-        public const char Tab = '\t';
+        /// <summary>
+        /// The empty.
+        /// </summary>
+		public const string Empty = "";
+        /// <summary>
+        /// The carriage return.
+        /// </summary>
+		public const char CarriageReturn = '\r';
+        /// <summary>
+        /// The line feed.
+        /// </summary>
+		public const char LineFeed = '\n';
+        /// <summary>
+        /// The tab.
+        /// </summary>
+		public const char Tab = '\t';
 
+		/// <summary>
+		/// Formats the with.
+		/// </summary>
+		/// <returns>The with.</returns>
+		/// <param name="format">Format.</param>
+		/// <param name="provider">Provider.</param>
+		/// <param name="arg0">Arg0.</param>
         public static string FormatWith(this string format, IFormatProvider provider, object arg0) {
             return format.FormatWith(provider, new[] { arg0 });
         }
 
+		/// <summary>
+		/// Formats the with.
+		/// </summary>
+		/// <returns>The with.</returns>
+		/// <param name="format">Format.</param>
+		/// <param name="provider">Provider.</param>
+		/// <param name="arg0">Arg0.</param>
+		/// <param name="arg1">Arg1.</param>
         public static string FormatWith(this string format, IFormatProvider provider, object arg0, object arg1) {
             return format.FormatWith(provider, new[] { arg0, arg1 });
         }
 
-        public static string FormatWith(this string format, IFormatProvider provider, object arg0, object arg1, object arg2) {
+        /// <summary>
+        /// Formats the with.
+        /// </summary>
+        /// <returns>The with.</returns>
+        /// <param name="format">Format.</param>
+        /// <param name="provider">Provider.</param>
+        /// <param name="arg0">Arg0.</param>
+        /// <param name="arg1">Arg1.</param>
+        /// <param name="arg2">Arg2.</param>
+		public static string FormatWith(this string format, IFormatProvider provider, object arg0, object arg1, object arg2) {
             return format.FormatWith(provider, new[] { arg0, arg1, arg2 });
         }
 
+		/// <summary>
+		/// Formats the with.
+		/// </summary>
+		/// <returns>The with.</returns>
+		/// <param name="format">Format.</param>
+		/// <param name="provider">Provider.</param>
+		/// <param name="arg0">Arg0.</param>
+		/// <param name="arg1">Arg1.</param>
+		/// <param name="arg2">Arg2.</param>
+		/// <param name="arg3">Arg3.</param>
         public static string FormatWith(this string format, IFormatProvider provider, object arg0, object arg1, object arg2, object arg3) {
             return format.FormatWith(provider, new[] { arg0, arg1, arg2, arg3 });
         }
 
-        private static string FormatWith(this string format, IFormatProvider provider, params object[] args) {
+        /// <summary>
+        /// Formats the with.
+        /// </summary>
+        /// <returns>The with.</returns>
+        /// <param name="format">Format.</param>
+        /// <param name="provider">Provider.</param>
+        /// <param name="args">Arguments.</param>
+		private static string FormatWith(this string format, IFormatProvider provider, params object[] args) {
             // leave this a private to force code to use an explicit overload
             // avoids stack memory being reserved for the object array
             if (string.IsNullOrEmpty(format)) {
@@ -96,21 +155,36 @@ namespace indice.Edi.Utilities
             return (string.IsNullOrEmpty(s)) ? null : s;
         }
 
-        public static StringWriter CreateStringWriter(int capacity) {
+        /// <summary>
+        /// Creates the string writer.
+        /// </summary>
+        /// <returns>The string writer.</returns>
+        /// <param name="capacity">Capacity.</param>
+		public static StringWriter CreateStringWriter(int capacity) {
             StringBuilder sb = new StringBuilder(capacity);
             StringWriter sw = new StringWriter(sb, CultureInfo.InvariantCulture);
 
             return sw;
         }
 
-        public static int? GetLength(string value) {
+        /// <summary>
+        /// Gets the length.
+        /// </summary>
+        /// <returns>The length.</returns>
+        /// <param name="value">Value.</param>
+		public static int? GetLength(string value) {
             if (value == null)
                 return null;
             else
                 return value.Length;
         }
 
-        public static void ToCharAsUnicode(char c, char[] buffer) {
+        /// <summary>
+        /// Tos the char as unicode.
+        /// </summary>
+        /// <param name="c">C.</param>
+        /// <param name="buffer">Buffer.</param>
+		public static void ToCharAsUnicode(char c, char[] buffer) {
             buffer[0] = '\\';
             buffer[1] = 'u';
             buffer[2] = MathUtils.IntToHex((c >> 12) & '\x000f');
@@ -119,7 +193,15 @@ namespace indice.Edi.Utilities
             buffer[5] = MathUtils.IntToHex(c & '\x000f');
         }
 
-        public static TSource ForgivingCaseSensitiveFind<TSource>(this IEnumerable<TSource> source, Func<TSource, string> valueSelector, string testValue) {
+        /// <summary>
+        /// Forgivings the case sensitive find.
+        /// </summary>
+        /// <returns>The case sensitive find.</returns>
+        /// <param name="source">Source.</param>
+        /// <param name="valueSelector">Value selector.</param>
+        /// <param name="testValue">Test value.</param>
+        /// <typeparam name="TSource">The 1st type parameter.</typeparam>
+		public static TSource ForgivingCaseSensitiveFind<TSource>(this IEnumerable<TSource> source, Func<TSource, string> valueSelector, string testValue) {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
             if (valueSelector == null)
@@ -135,6 +217,11 @@ namespace indice.Edi.Utilities
             }
         }
 
+		/// <summary>
+		/// Tos the camel case.
+		/// </summary>
+		/// <returns>The camel case.</returns>
+		/// <param name="s">S.</param>
         public static string ToCamelCase(string s) {
             if (string.IsNullOrEmpty(s))
                 return s;
@@ -159,7 +246,12 @@ namespace indice.Edi.Utilities
             return new string(chars);
         }
 
-        public static bool IsHighSurrogate(char c) {
+        /// <summary>
+        /// Ises the high surrogate.
+        /// </summary>
+        /// <returns><c>true</c>, if high surrogate was ised, <c>false</c> otherwise.</returns>
+        /// <param name="c">C.</param>
+		public static bool IsHighSurrogate(char c) {
 #if !(PORTABLE40 || PORTABLE)
             return char.IsHighSurrogate(c);
 #else
@@ -167,7 +259,12 @@ namespace indice.Edi.Utilities
 #endif
         }
 
-        public static bool IsLowSurrogate(char c) {
+        /// <summary>
+        /// Ises the low surrogate.
+        /// </summary>
+        /// <returns><c>true</c>, if low surrogate was ised, <c>false</c> otherwise.</returns>
+        /// <param name="c">C.</param>
+		public static bool IsLowSurrogate(char c) {
 #if !(PORTABLE40 || PORTABLE)
             return char.IsLowSurrogate(c);
 #else
@@ -175,11 +272,23 @@ namespace indice.Edi.Utilities
 #endif
         }
 
-        public static bool StartsWith(this string source, char value) {
+        /// <summary>
+        /// Startses the with.
+        /// </summary>
+        /// <returns><c>true</c>, if with was startsed, <c>false</c> otherwise.</returns>
+        /// <param name="source">Source.</param>
+        /// <param name="value">Value.</param>
+		public static bool StartsWith(this string source, char value) {
             return (source.Length > 0 && source[0] == value);
         }
 
-        public static bool EndsWith(this string source, char value) {
+        /// <summary>
+        /// Endses the with.
+        /// </summary>
+        /// <returns><c>true</c>, if with was endsed, <c>false</c> otherwise.</returns>
+        /// <param name="source">Source.</param>
+        /// <param name="value">Value.</param>
+		public static bool EndsWith(this string source, char value) {
             return (source.Length > 0 && source[source.Length - 1] == value);
         }
     }

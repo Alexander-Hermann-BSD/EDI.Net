@@ -29,12 +29,28 @@ using System.Threading;
 
 namespace indice.Edi.Utilities
 {
+	/// <summary>
+	/// Thread safe store.
+	/// </summary>
     internal class ThreadSafeStore<TKey, TValue>
     {
+		/// <summary>
+		/// The lock.
+		/// </summary>
         private readonly object _lock = new object();
-        private Dictionary<TKey, TValue> _store;
-        private readonly Func<TKey, TValue> _creator;
+        /// <summary>
+        /// The store.
+        /// </summary>
+		private Dictionary<TKey, TValue> _store;
+        /// <summary>
+        /// The creator.
+        /// </summary>
+		private readonly Func<TKey, TValue> _creator;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:indice.Edi.Utilities.ThreadSafeStore`2"/> class.
+		/// </summary>
+		/// <param name="creator">Creator.</param>
         public ThreadSafeStore(Func<TKey, TValue> creator)
         {
             if (creator == null)
@@ -44,6 +60,10 @@ namespace indice.Edi.Utilities
             _store = new Dictionary<TKey, TValue>();
         }
 
+		/// <summary>
+		/// Get the specified key.
+		/// </summary>
+		/// <param name="key">Key.</param>
         public TValue Get(TKey key)
         {
             TValue value;
@@ -53,6 +73,11 @@ namespace indice.Edi.Utilities
             return value;
         }
 
+		/// <summary>
+		/// Adds the value.
+		/// </summary>
+		/// <returns>The value.</returns>
+		/// <param name="key">Key.</param>
         private TValue AddValue(TKey key)
         {
             TValue value = _creator(key);

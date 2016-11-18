@@ -40,68 +40,229 @@ using System.Data.SqlTypes;
 
 namespace indice.Edi.Utilities
 {
+	/// <summary>
+	/// Primitive type code.
+	/// </summary>
     internal enum PrimitiveTypeCode
     {
+		/// <summary>
+		/// The empty.
+		/// </summary>
         Empty = 0,
-        Object = 1,
-        Char = 2,
-        CharNullable = 3,
-        Boolean = 4,
-        BooleanNullable = 5,
-        SByte = 6,
-        SByteNullable = 7,
-        Int16 = 8,
-        Int16Nullable = 9,
-        UInt16 = 10,
-        UInt16Nullable = 11,
-        Int32 = 12,
-        Int32Nullable = 13,
-        Byte = 14,
-        ByteNullable = 15,
-        UInt32 = 16,
-        UInt32Nullable = 17,
-        Int64 = 18,
-        Int64Nullable = 19,
-        UInt64 = 20,
-        UInt64Nullable = 21,
-        Single = 22,
-        SingleNullable = 23,
-        Double = 24,
-        DoubleNullable = 25,
-        DateTime = 26,
-        DateTimeNullable = 27,
-        DateTimeOffset = 28,
-        DateTimeOffsetNullable = 29,
-        Decimal = 30,
-        DecimalNullable = 31,
-        Guid = 32,
-        GuidNullable = 33,
-        TimeSpan = 34,
-        TimeSpanNullable = 35,
-        BigInteger = 36,
-        BigIntegerNullable = 37,
-        Uri = 38,
-        String = 39,
-        Bytes = 40,
-        DBNull = 41
+        /// <summary>
+        /// The object.
+        /// </summary>
+		Object = 1,
+        /// <summary>
+        /// The char.
+        /// </summary>
+		Char = 2,
+        /// <summary>
+        /// The char nullable.
+        /// </summary>
+		CharNullable = 3,
+        /// <summary>
+        /// The boolean.
+        /// </summary>
+		Boolean = 4,
+        /// <summary>
+        /// The boolean nullable.
+        /// </summary>
+		BooleanNullable = 5,
+        /// <summary>
+        /// The SB yte.
+        /// </summary>
+		SByte = 6,
+        /// <summary>
+        /// The SB yte nullable.
+        /// </summary>
+		SByteNullable = 7,
+        /// <summary>
+        /// The int16.
+        /// </summary>
+		Int16 = 8,
+        /// <summary>
+        /// The int16 nullable.
+        /// </summary>
+		Int16Nullable = 9,
+        /// <summary>
+        /// The user interface nt16.
+        /// </summary>
+		UInt16 = 10,
+        /// <summary>
+        /// The user interface nt16 nullable.
+        /// </summary>
+		UInt16Nullable = 11,
+        /// <summary>
+        /// The int32.
+        /// </summary>
+		Int32 = 12,
+        /// <summary>
+        /// The int32 nullable.
+        /// </summary>
+		Int32Nullable = 13,
+        /// <summary>
+        /// The byte.
+        /// </summary>
+		Byte = 14,
+        /// <summary>
+        /// The byte nullable.
+        /// </summary>
+		ByteNullable = 15,
+        /// <summary>
+        /// The user interface nt32.
+        /// </summary>
+		UInt32 = 16,
+        /// <summary>
+        /// The user interface nt32 nullable.
+        /// </summary>
+		UInt32Nullable = 17,
+        /// <summary>
+        /// The int64.
+        /// </summary>
+		Int64 = 18,
+        /// <summary>
+        /// The int64 nullable.
+        /// </summary>
+		Int64Nullable = 19,
+        /// <summary>
+        /// The user interface nt64.
+        /// </summary>
+		UInt64 = 20,
+        /// <summary>
+        /// The user interface nt64 nullable.
+        /// </summary>
+		UInt64Nullable = 21,
+        /// <summary>
+        /// The single.
+        /// </summary>
+		Single = 22,
+        /// <summary>
+        /// The single nullable.
+        /// </summary>
+		SingleNullable = 23,
+        /// <summary>
+        /// The double.
+        /// </summary>
+		Double = 24,
+        /// <summary>
+        /// The double nullable.
+        /// </summary>
+		DoubleNullable = 25,
+        /// <summary>
+        /// The date time.
+        /// </summary>
+		DateTime = 26,
+        /// <summary>
+        /// The date time nullable.
+        /// </summary>
+		DateTimeNullable = 27,
+        /// <summary>
+        /// The date time offset.
+        /// </summary>
+		DateTimeOffset = 28,
+        /// <summary>
+        /// The date time offset nullable.
+        /// </summary>
+		DateTimeOffsetNullable = 29,
+        /// <summary>
+        /// The decimal.
+        /// </summary>
+		Decimal = 30,
+        /// <summary>
+        /// The decimal nullable.
+        /// </summary>
+		DecimalNullable = 31,
+        /// <summary>
+        /// The GUID.
+        /// </summary>
+		Guid = 32,
+        /// <summary>
+        /// The GUID nullable.
+        /// </summary>
+		GuidNullable = 33,
+        /// <summary>
+        /// The time span.
+        /// </summary>
+		TimeSpan = 34,
+        /// <summary>
+        /// The time span nullable.
+        /// </summary>
+		TimeSpanNullable = 35,
+        /// <summary>
+        /// The big integer.
+        /// </summary>
+		BigInteger = 36,
+        /// <summary>
+        /// The big integer nullable.
+        /// </summary>
+		BigIntegerNullable = 37,
+        /// <summary>
+        /// The URI.
+        /// </summary>
+		Uri = 38,
+        /// <summary>
+        /// The string.
+        /// </summary>
+		String = 39,
+        /// <summary>
+        /// The bytes.
+        /// </summary>
+		Bytes = 40,
+        /// <summary>
+        /// The DBN ull.
+        /// </summary>
+		DBNull = 41
     }
 
+	/// <summary>
+	/// Type information.
+	/// </summary>
     internal class TypeInformation
     {
+		/// <summary>
+		/// Gets or sets the type.
+		/// </summary>
+		/// <value>The type.</value>
         public Type Type { get; set; }
-        public PrimitiveTypeCode TypeCode { get; set; }
+        /// <summary>
+        /// Gets or sets the type code.
+        /// </summary>
+        /// <value>The type code.</value>
+		public PrimitiveTypeCode TypeCode { get; set; }
     }
 
+	/// <summary>
+	/// Parse result.
+	/// </summary>
     internal enum ParseResult
     {
+		/// <summary>
+		/// nothing
+		/// </summary>
         None = 0,
+		/// <summary>
+		/// The success.
+		/// </summary>
         Success = 1,
-        Overflow = 2,
-        Invalid = 3
+        /// <summary>
+        /// The overflow.
+        /// </summary>
+		Overflow = 2,
+        /// <summary>
+        /// The invalid.
+        /// </summary>
+		Invalid = 3
     }
 
+	/// <summary>
+	/// Convert utils.
+	/// </summary>
     internal static class ConvertUtils
     {
+		/// <summary>
+		/// The type code map.
+		/// </summary>
         private static readonly Dictionary<Type, PrimitiveTypeCode> TypeCodeMap =
             new Dictionary<Type, PrimitiveTypeCode>
             {
@@ -152,6 +313,9 @@ namespace indice.Edi.Utilities
             };
 
 #if !PORTABLE
+		/// <summary>
+		/// The primitive type codes.
+		/// </summary>
         private static readonly TypeInformation[] PrimitiveTypeCodes =
         {
             // need all of these. lookup against the index with TypeCode value
@@ -177,11 +341,22 @@ namespace indice.Edi.Utilities
         };
 #endif
 
+		/// <summary>
+		/// Gets the type code.
+		/// </summary>
+		/// <returns>The type code.</returns>
+		/// <param name="t">T.</param>
         public static PrimitiveTypeCode GetTypeCode(Type t) {
             bool isEnum;
             return GetTypeCode(t, out isEnum);
         }
 
+		/// <summary>
+		/// Gets the type code.
+		/// </summary>
+		/// <returns>The type code.</returns>
+		/// <param name="t">T.</param>
+		/// <param name="isEnum">If set to <c>true</c> is enum.</param>
         public static PrimitiveTypeCode GetTypeCode(Type t, out bool isEnum) {
             PrimitiveTypeCode typeCode;
             if (TypeCodeMap.TryGetValue(t, out typeCode)) {
@@ -209,6 +384,11 @@ namespace indice.Edi.Utilities
         }
 
 #if !PORTABLE
+		/// <summary>
+		/// Gets the type information.
+		/// </summary>
+		/// <returns>The type information.</returns>
+		/// <param name="convertable">Convertable.</param>
         public static TypeInformation GetTypeInformation(IConvertible convertable)
         {
             TypeInformation typeInformation = PrimitiveTypeCodes[(int)convertable.GetTypeCode()];
@@ -216,6 +396,11 @@ namespace indice.Edi.Utilities
         }
 #endif
 
+		/// <summary>
+		/// Ises the convertible.
+		/// </summary>
+		/// <returns><c>true</c>, if convertible was ised, <c>false</c> otherwise.</returns>
+		/// <param name="t">T.</param>
         public static bool IsConvertible(Type t) {
 #if !PORTABLE
             return typeof(IConvertible).IsAssignableFrom(t);
@@ -226,32 +411,69 @@ namespace indice.Edi.Utilities
 #endif
         }
 
+		/// <summary>
+		/// Parses the time span.
+		/// </summary>
+		/// <returns>The time span.</returns>
+		/// <param name="input">Input.</param>
         public static TimeSpan ParseTimeSpan(string input) {
             return TimeSpan.Parse(input, CultureInfo.InvariantCulture);
         }
 
+		/// <summary>
+		/// Type convert key.
+		/// </summary>
         internal struct TypeConvertKey : IEquatable<TypeConvertKey>
         {
+			/// <summary>
+			/// The initial type.
+			/// </summary>
             private readonly Type _initialType;
-            private readonly Type _targetType;
+            /// <summary>
+            /// The type of the target.
+            /// </summary>
+			private readonly Type _targetType;
 
+			/// <summary>
+			/// Gets the initial type.
+			/// </summary>
+			/// <value>The initial type.</value>
             public Type InitialType {
                 get { return _initialType; }
             }
 
+			/// <summary>
+			/// Gets the type of the target.
+			/// </summary>
+			/// <value>The type of the target.</value>
             public Type TargetType {
                 get { return _targetType; }
             }
 
+			/// <summary>
+			/// Initializes a new instance of the <see cref="T:indice.Edi.Utilities.ConvertUtils.TypeConvertKey"/> struct.
+			/// </summary>
+			/// <param name="initialType">Initial type.</param>
+			/// <param name="targetType">Target type.</param>
             public TypeConvertKey(Type initialType, Type targetType) {
                 _initialType = initialType;
                 _targetType = targetType;
             }
 
+			/// <summary>
+			/// Serves as a hash function for a <see cref="T:indice.Edi.Utilities.ConvertUtils.TypeConvertKey"/> object.
+			/// </summary>
+			/// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a hash table.</returns>
             public override int GetHashCode() {
                 return _initialType.GetHashCode() ^ _targetType.GetHashCode();
             }
 
+			/// <summary>
+			/// Determines whether the specified <see cref="object"/> is equal to the current <see cref="T:indice.Edi.Utilities.ConvertUtils.TypeConvertKey"/>.
+			/// </summary>
+			/// <param name="obj">The <see cref="object"/> to compare with the current <see cref="T:indice.Edi.Utilities.ConvertUtils.TypeConvertKey"/>.</param>
+			/// <returns><c>true</c> if the specified <see cref="object"/> is equal to the current
+			/// <see cref="T:indice.Edi.Utilities.ConvertUtils.TypeConvertKey"/>; otherwise, <c>false</c>.</returns>
             public override bool Equals(object obj) {
                 if (!(obj is TypeConvertKey)) {
                     return false;
@@ -260,14 +482,29 @@ namespace indice.Edi.Utilities
                 return Equals((TypeConvertKey)obj);
             }
 
+			/// <summary>
+			/// Determines whether the specified <see cref="indice.Edi.Utilities.ConvertUtils.TypeConvertKey"/> is equal to the
+			/// current <see cref="T:indice.Edi.Utilities.ConvertUtils.TypeConvertKey"/>.
+			/// </summary>
+			/// <param name="other">The <see cref="indice.Edi.Utilities.ConvertUtils.TypeConvertKey"/> to compare with the current <see cref="T:indice.Edi.Utilities.ConvertUtils.TypeConvertKey"/>.</param>
+			/// <returns><c>true</c> if the specified <see cref="indice.Edi.Utilities.ConvertUtils.TypeConvertKey"/> is equal to the
+			/// current <see cref="T:indice.Edi.Utilities.ConvertUtils.TypeConvertKey"/>; otherwise, <c>false</c>.</returns>
             public bool Equals(TypeConvertKey other) {
                 return (_initialType == other._initialType && _targetType == other._targetType);
             }
         }
 
+		/// <summary>
+		/// The cast converters.
+		/// </summary>
         private static readonly ThreadSafeStore<TypeConvertKey, Func<object, object>> CastConverters =
             new ThreadSafeStore<TypeConvertKey, Func<object, object>>(CreateCastConverter);
 
+		/// <summary>
+		/// Creates the cast converter.
+		/// </summary>
+		/// <returns>The cast converter.</returns>
+		/// <param name="t">T.</param>
         private static Func<object, object> CreateCastConverter(TypeConvertKey t) {
             MethodInfo castMethodInfo = t.TargetType.GetMethod("op_Implicit", new[] { t.InitialType });
             if (castMethodInfo == null) {
@@ -285,6 +522,11 @@ namespace indice.Edi.Utilities
         }
 
 #if !PORTABLE
+		/// <summary>
+		/// Tos the big integer.
+		/// </summary>
+		/// <returns>The big integer.</returns>
+		/// <param name="value">Value.</param>
         internal static BigInteger ToBigInteger(object value)
         {
             if (value is BigInteger)
@@ -331,6 +573,12 @@ namespace indice.Edi.Utilities
             throw new InvalidCastException("Cannot convert {0} to BigInteger.".FormatWith(CultureInfo.InvariantCulture, value.GetType()));
         }
 
+		/// <summary>
+		/// Froms the big integer.
+		/// </summary>
+		/// <returns>The big integer.</returns>
+		/// <param name="i">The index.</param>
+		/// <param name="targetType">Target type.</param>
         public static object FromBigInteger(BigInteger i, Type targetType)
         {
             if (targetType == typeof(decimal))
@@ -366,7 +614,10 @@ namespace indice.Edi.Utilities
 #endif
 
         #region TryConvert
-        internal enum ConvertResult
+        /// <summary>
+        /// Convert result.
+        /// </summary>
+		internal enum ConvertResult
         {
             Success = 0,
             CannotConvertNull = 1,
@@ -374,6 +625,12 @@ namespace indice.Edi.Utilities
             NoValidConversion = 3
         }
 
+		/// <summary>
+		/// Convert the specified initialValue, culture and targetType.
+		/// </summary>
+		/// <param name="initialValue">Initial value.</param>
+		/// <param name="culture">Culture.</param>
+		/// <param name="targetType">Target type.</param>
         public static object Convert(object initialValue, CultureInfo culture, Type targetType) {
             object value;
             switch (TryConvertInternal(initialValue, culture, targetType, out value)) {
@@ -390,6 +647,14 @@ namespace indice.Edi.Utilities
             }
         }
 
+		/// <summary>
+		/// Tries the convert.
+		/// </summary>
+		/// <returns><c>true</c>, if convert was tryed, <c>false</c> otherwise.</returns>
+		/// <param name="initialValue">Initial value.</param>
+		/// <param name="culture">Culture.</param>
+		/// <param name="targetType">Target type.</param>
+		/// <param name="value">Value.</param>
         private static bool TryConvert(object initialValue, CultureInfo culture, Type targetType, out object value) {
             try {
                 if (TryConvertInternal(initialValue, culture, targetType, out value) == ConvertResult.Success) {
@@ -404,6 +669,14 @@ namespace indice.Edi.Utilities
             }
         }
 
+		/// <summary>
+		/// Tries the convert internal.
+		/// </summary>
+		/// <returns>The convert internal.</returns>
+		/// <param name="initialValue">Initial value.</param>
+		/// <param name="culture">Culture.</param>
+		/// <param name="targetType">Target type.</param>
+		/// <param name="value">Value.</param>
         private static ConvertResult TryConvertInternal(object initialValue, CultureInfo culture, Type targetType, out object value) {
             if (initialValue == null) {
                 throw new ArgumentNullException(nameof(initialValue));
@@ -579,6 +852,13 @@ namespace indice.Edi.Utilities
         }
         #endregion
 
+		/// <summary>
+		/// Ensures the type assignable.
+		/// </summary>
+		/// <returns>The type assignable.</returns>
+		/// <param name="value">Value.</param>
+		/// <param name="initialType">Initial type.</param>
+		/// <param name="targetType">Target type.</param>
         private static object EnsureTypeAssignable(object value, Type initialType, Type targetType) {
             Type valueType = (value != null) ? value.GetType() : null;
 
@@ -601,6 +881,11 @@ namespace indice.Edi.Utilities
         }
 
 #if !(DOTNET || PORTABLE)
+		/// <summary>
+		/// Tos the value.
+		/// </summary>
+		/// <returns>The value.</returns>
+		/// <param name="nullableValue">Nullable value.</param>
         public static object ToValue(INullable nullableValue)
         {
             if (nullableValue == null)
@@ -633,16 +918,32 @@ namespace indice.Edi.Utilities
 #endif
 
 #if !PORTABLE
+		/// <summary>
+		/// Gets the converter.
+		/// </summary>
+		/// <returns>The converter.</returns>
+		/// <param name="t">T.</param>
         internal static TypeConverter GetConverter(Type t)
         {
             return TypeDescriptor.GetConverter(t);
         }
 #endif
 
+		/// <summary>
+		/// Versions the try parse.
+		/// </summary>
+		/// <returns><c>true</c>, if try parse was versioned, <c>false</c> otherwise.</returns>
+		/// <param name="input">Input.</param>
+		/// <param name="result">Result.</param>
         public static bool VersionTryParse(string input, out Version result) {
             return Version.TryParse(input, out result);
         }
 
+		/// <summary>
+		/// Ises the integer.
+		/// </summary>
+		/// <returns><c>true</c>, if integer was ised, <c>false</c> otherwise.</returns>
+		/// <param name="value">Value.</param>
         public static bool IsInteger(object value) {
             switch (GetTypeCode(value.GetType())) {
                 case PrimitiveTypeCode.SByte:
@@ -659,6 +960,14 @@ namespace indice.Edi.Utilities
             }
         }
 
+		/// <summary>
+		/// Int32s the try parse.
+		/// </summary>
+		/// <returns>The try parse.</returns>
+		/// <param name="chars">Chars.</param>
+		/// <param name="start">Start.</param>
+		/// <param name="length">Length.</param>
+		/// <param name="value">Value.</param>
         public static ParseResult Int32TryParse(char[] chars, int start, int length, out int value) {
             value = 0;
 
@@ -739,6 +1048,14 @@ namespace indice.Edi.Utilities
             return ParseResult.Success;
         }
 
+		/// <summary>
+		/// Int64s the try parse.
+		/// </summary>
+		/// <returns>The try parse.</returns>
+		/// <param name="chars">Chars.</param>
+		/// <param name="start">Start.</param>
+		/// <param name="length">Length.</param>
+		/// <param name="value">Value.</param>
         public static ParseResult Int64TryParse(char[] chars, int start, int length, out long value) {
             value = 0;
 
@@ -817,6 +1134,12 @@ namespace indice.Edi.Utilities
             return ParseResult.Success;
         }
 
+		/// <summary>
+		/// Tries the convert GUID.
+		/// </summary>
+		/// <returns><c>true</c>, if convert GUID was tryed, <c>false</c> otherwise.</returns>
+		/// <param name="s">S.</param>
+		/// <param name="g">The green component.</param>
         public static bool TryConvertGuid(string s, out Guid g) {
             // GUID has to have format 00000000-0000-0000-0000-000000000000
 #if NET20 || NET35
@@ -840,6 +1163,13 @@ namespace indice.Edi.Utilities
 #endif
         }
 
+		/// <summary>
+		/// Hexs the text to int.
+		/// </summary>
+		/// <returns>The text to int.</returns>
+		/// <param name="text">Text.</param>
+		/// <param name="start">Start.</param>
+		/// <param name="end">End.</param>
         public static int HexTextToInt(char[] text, int start, int end) {
             int value = 0;
             for (int i = start; i < end; i++) {
@@ -848,6 +1178,11 @@ namespace indice.Edi.Utilities
             return value;
         }
 
+		/// <summary>
+		/// Hexs the char to int.
+		/// </summary>
+		/// <returns>The char to int.</returns>
+		/// <param name="ch">Ch.</param>
         private static int HexCharToInt(char ch) {
             if (ch <= 57 && ch >= 48) {
                 return ch - 48;

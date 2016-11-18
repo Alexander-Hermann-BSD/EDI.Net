@@ -25,5 +25,12 @@
 
 namespace indice.Edi.Utilities
 {
+	/// <summary>
+	/// Method call.
+	/// </summary>
+	/// <param name="target">the target</param>
+	/// <param name="args">Arguments as <see cref="object"/>-array.</param>
+	/// <typeparam name="T">Target Type</typeparam>
+	/// <typeparam name="TResult">Result Type</typeparam>
     internal delegate TResult MethodCall<T, TResult>(T target, params object[] args);
 }

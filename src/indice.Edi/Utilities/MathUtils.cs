@@ -27,8 +27,16 @@ using System;
 
 namespace indice.Edi.Utilities
 {
+	/// <summary>
+	/// Math utils.
+	/// </summary>
     static class MathUtils
     {
+		/// <summary>
+		/// Ints the length.
+		/// </summary>
+		/// <returns>The length.</returns>
+		/// <param name="i">The index.</param>
         public static int IntLength(ulong i) {
             if (i < 10000000000) {
                 if (i < 10) return 1;
@@ -57,6 +65,11 @@ namespace indice.Edi.Utilities
             }
         }
 
+		/// <summary>
+		/// Ints to hex.
+		/// </summary>
+		/// <returns>The to hex.</returns>
+		/// <param name="n">N.</param>
         public static char IntToHex(int n) {
             if (n <= 9)
                 return (char)(n + 48);
@@ -64,6 +77,11 @@ namespace indice.Edi.Utilities
             return (char)((n - 10) + 97);
         }
 
+		/// <summary>
+		/// Minimum the specified val1 and val2.
+		/// </summary>
+		/// <param name="val1">Val1.</param>
+		/// <param name="val2">Val2.</param>
         public static int? Min(int? val1, int? val2) {
             if (val1 == null)
                 return val2;
@@ -73,6 +91,11 @@ namespace indice.Edi.Utilities
             return Math.Min(val1.Value, val2.Value);
         }
 
+		/// <summary>
+		/// Max the specified val1 and val2.
+		/// </summary>
+		/// <param name="val1">Val1.</param>
+		/// <param name="val2">Val2.</param>
         public static int? Max(int? val1, int? val2) {
             if (val1 == null)
                 return val2;
@@ -82,6 +105,11 @@ namespace indice.Edi.Utilities
             return Math.Max(val1.Value, val2.Value);
         }
 
+		/// <summary>
+		/// Max the specified val1 and val2.
+		/// </summary>
+		/// <param name="val1">Val1.</param>
+		/// <param name="val2">Val2.</param>
         public static double? Max(double? val1, double? val2) {
             if (val1 == null)
                 return val2;
@@ -91,6 +119,12 @@ namespace indice.Edi.Utilities
             return Math.Max(val1.Value, val2.Value);
         }
 
+		/// <summary>
+		/// Approxs the equals.
+		/// </summary>
+		/// <returns><c>true</c>, if equals was approxed, <c>false</c> otherwise.</returns>
+		/// <param name="d1">D1.</param>
+		/// <param name="d2">D2.</param>
         public static bool ApproxEquals(double d1, double d2) {
             const double epsilon = 2.2204460492503131E-16;
 
