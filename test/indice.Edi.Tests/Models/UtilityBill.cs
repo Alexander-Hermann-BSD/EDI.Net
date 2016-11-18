@@ -735,62 +735,137 @@ namespace indice.Edi.Tests.Models
         [EdiValue("9(10)", Path = "VAT/0", Description = "SEQA")]
         public int FirstLevelSequenceNumber { get; set; }
 
+		/// <summary>
+		/// Gets or sets the number of days.
+		/// </summary>
+		/// <value>The number of days.</value>
         [EdiValue("9(3)", Path = "VAT/1", Description = "NDVT")]
         public int? NumberOfDays { get; set; }
 
+		/// <summary>
+		/// Gets or sets the percentage qualifying for.
+		/// </summary>
+		/// <value>The percentage qualifying for.</value>
         [EdiValue("9(3)V9(3)", Path = "VAT/2", Description = "PNDP")]
         public decimal? PercentageQualifyingFor { get; set; }
 
+		/// <summary>
+		/// Gets or sets the vat rate category code.
+		/// </summary>
+		/// <value>The vat rate category code.</value>
         [EdiValue("X(1)", Path = "VAT/3", Description = "VATC")]
         public VatRateCategoryCode VatRateCategoryCode { get; set; }
 
+		/// <summary>
+		/// Gets or sets the vat rate percentage.
+		/// </summary>
+		/// <value>The vat rate percentage.</value>
         [EdiValue("9(3)", Path = "VAT/4", Description = "VATP")]
         public decimal VatRatePercentage { get; set; }
 
+		/// <summary>
+		/// Gets or sets the total charge before vat.
+		/// </summary>
+		/// <value>The total charge before vat.</value>
         [EdiValue("9(10)", Path = "VAT/5/0", Description = "UVLA")]
         public decimal TotalChargeBeforeVat { get; set; }
 
+		/// <summary>
+		/// Gets or sets the vat ammount payable.
+		/// </summary>
+		/// <value>The vat ammount payable.</value>
         [EdiValue("9(10)", Path = "VAT/6/0", Description = "UVTT")]
         public decimal VatAmmountPayable { get; set; }
 
+		/// <summary>
+		/// Gets or sets the total charge including vat.
+		/// </summary>
+		/// <value>The total charge including vat.</value>
         [EdiValue("9(10)V9(2)", Path = "VAT/7/0", Description = "UCSI")]
         public decimal TotalChargeIncludingVat { get; set; }
 
+		/// <summary>
+		/// Gets or sets the number of item lines.
+		/// </summary>
+		/// <value>The number of item lines.</value>
         [EdiValue("9(4)", Path = "VAT/8", Description = "NRIL")]
         public int? NumberOfItemLines { get; set; }
 
+		/// <summary>
+		/// Gets or sets the reason for lower zero vat rate.
+		/// </summary>
+		/// <value>The reason for lower zero vat rate.</value>
         [EdiValue("X(3)", Path = "VAT/9", Description = "RFLV")]
         public ReasonForLowerVatRateType ReasonForLowerZeroVatRate { get; set; }//null-able
 
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:indice.Edi.Tests.Models.UtilityBillValueAddedTax"/>.
+		/// </summary>
+		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:indice.Edi.Tests.Models.UtilityBillValueAddedTax"/>.</returns>
         public override string ToString() {
             return string.Format("Net:{0} Vat:{1} Gross:{2}", TotalChargeBeforeVat, VatAmmountPayable, TotalChargeIncludingVat);
         }
     }
 
+	/// <summary>
+	/// Contract data.
+	/// </summary>
     [EdiSegment, EdiPath("CDA")]
     public class ContractData
     {
+		/// <summary>
+		/// Gets or sets the current price schedule reference.
+		/// </summary>
+		/// <value>The current price schedule reference.</value>
         [EdiValue("X(17)", Path = "CDA/0", Description = "CPSC")]
         public string CurrentPriceScheduleReference { get; set; }
 
+		/// <summary>
+		/// Gets or sets the customer order number.
+		/// </summary>
+		/// <value>The customer order number.</value>
         [EdiValue("X(17)", Path = "CDA/1/0", Description = "ORNO")]
         public string CustomerOrderNumber { get; set; }
 
+		/// <summary>
+		/// Gets or sets the supplier order number.
+		/// </summary>
+		/// <value>The supplier order number.</value>
         [EdiValue("X(17)", Path = "CDA/1/1", Description = "ORNO")]
         public string SupplierOrderNumber { get; set; }
 
+		/// <summary>
+		/// Gets or sets the date ordered placed by customer.
+		/// </summary>
+		/// <value>The date ordered placed by customer.</value>
         [EdiValue("9(6)", Path = "CDA/1/2", Format = "yyMMdd", Description = "ORNO")]
         public DateTime? DateOrderedPlacedByCustomer { get; set; }
 
+		/// <summary>
+		/// Gets or sets the date ordered received by supplier.
+		/// </summary>
+		/// <value>The date ordered received by supplier.</value>
         [EdiValue("9(6)", Path = "CDA/1/3", Format = "yyMMdd", Description = "ORNO")]
         public DateTime? DateOrderedReceivedBySupplier { get; set; }
 
+		/// <summary>
+		/// Gets or sets the installation date.
+		/// </summary>
+		/// <value>The installation date.</value>
         [EdiValue("9(6)", Path = "CDA/2", Format = "yyMMdd", Description = "INSD")]
         public DateTime? InstallationDate { get; set; }
 
+		/// <summary>
+		/// Gets or sets the rental period.
+		/// </summary>
+		/// <value>The rental period.</value>
         [EdiValue("X(3)", Path = "CDA/3", Description = "REPE")]
         public string RentalPeriod { get; set; }
 
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:indice.Edi.Tests.Models.ContractData"/>.
+		/// </summary>
+		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:indice.Edi.Tests.Models.ContractData"/>.</returns>
         public override string ToString() {
             return string.Format("CON:{0} SON:{1}", CustomerOrderNumber, SupplierOrderNumber);
         }
@@ -798,14 +873,31 @@ namespace indice.Edi.Tests.Models
 
 
     #region Edi Enumerations
-
+	/// <summary>
+	/// Charge indicator.
+	/// </summary>
     public enum ChargeIndicator
     {
+		/// <summary>
+		/// The consumption only.
+		/// </summary>
         ConsumptionOnly = 1,
-        CombinedConsumptionAndCharge = 2,
-        ChargeOnly_ConsumptionBased = 3,
-        ChargeOnly_Fixed = 4
+        /// <summary>
+        /// The combined consumption and charge.
+        /// </summary>
+		CombinedConsumptionAndCharge = 2,
+        /// <summary>
+        /// The charge only consumption based.
+        /// </summary>
+		ChargeOnly_ConsumptionBased = 3,
+        /// <summary>
+        /// The charge only fixed.
+        /// </summary>
+		ChargeOnly_Fixed = 4
     }
+	/// <summary>
+	/// Measure indicator.
+	/// </summary>
     public enum MeasureIndicator
     {
         //KVA = Kilovolt - ampere
@@ -815,6 +907,9 @@ namespace indice.Edi.Tests.Models
         //CUFT = Cubic Feet (Gas only)
         //1		=	1 Consumer Unit
     }
+	/// <summary>
+	/// Vat rate category code.
+	/// </summary>
     public enum VatRateCategoryCode
     {
         /// <summary>
@@ -862,6 +957,9 @@ namespace indice.Edi.Tests.Models
         /// </summary>
         U
     }
+	/// <summary>
+	/// Reason for lower vat rate type.
+	/// </summary>
     public enum ReasonForLowerVatRateType
     {
         /// <summary>
@@ -883,11 +981,23 @@ namespace indice.Edi.Tests.Models
         C,
 
     }
+	/// <summary>
+	/// Report period.
+	/// </summary>
     public enum ReportPeriod
     {
+		/// <summary>
+		/// The monthly.
+		/// </summary>
         Monthly = 'M',
-        Quarterly = 'Q'
+        /// <summary>
+        /// The quarterly.
+        /// </summary>
+		Quarterly = 'Q'
     }
+	/// <summary>
+	/// Bill type code.
+	/// </summary>
     public enum BillTypeCode
     {
         /// <summary>
@@ -911,32 +1021,101 @@ namespace indice.Edi.Tests.Models
         /// </summary>
         W
     }
+	/// <summary>
+	/// Reading data type.
+	/// </summary>
     public enum ReadingDataType
     {
+		/// <summary>
+		/// The normal reading.
+		/// </summary>
         NormalReading = 00,
-        Estimated_Computer_Reading = 02,
-        CustomersOwnReading = 04,
-        ExchangeMeterReading = 06,
-        ThirdPartyNormalReading = 09,
-        ThirdPartyEstimated_Computer_Reading = 11,
-        ReadingForInformationOnly = 12,
+        /// <summary>
+        /// The estimated computer reading.
+        /// </summary>
+		Estimated_Computer_Reading = 02,
+        /// <summary>
+        /// The customers own reading.
+        /// </summary>
+		CustomersOwnReading = 04,
+        /// <summary>
+        /// The exchange meter reading.
+        /// </summary>
+		ExchangeMeterReading = 06,
+        /// <summary>
+        /// The third party normal reading.
+        /// </summary>
+		ThirdPartyNormalReading = 09,
+        /// <summary>
+        /// The third party estimated computer reading.
+        /// </summary>
+		ThirdPartyEstimated_Computer_Reading = 11,
+        /// <summary>
+        /// The reading for information only.
+        /// </summary>
+		ReadingForInformationOnly = 12,
     }
+	/// <summary>
+	/// Distribution business codes.
+	/// </summary>
     public enum DistributionBusinessCodes
     {
+		/// <summary>
+		/// The eastern electricity.
+		/// </summary>
         Eastern_Electricity = 10,
-        East_Midlands_Electricity = 11,
-        London_Electricity = 12,
-        Manweb = 13,
-        Midlands_Electricity = 14,
-        Northern_Electricity = 15,
-        NORWEB = 16,
-        Scottish_Hydro_Electric = 17,
-        Scottish_Power = 18,
-        SEEBOARD = 19,
-        Southern_Electric = 20,
-        SWALEC = 21,
-        South_Western_Electricity = 22,
-        Yorkshire_Electricity = 23,
+        /// <summary>
+        /// The east midlands electricity.
+        /// </summary>
+		East_Midlands_Electricity = 11,
+        /// <summary>
+        /// The london electricity.
+        /// </summary>
+		London_Electricity = 12,
+        /// <summary>
+        /// The manweb.
+        /// </summary>
+		Manweb = 13,
+        /// <summary>
+        /// The midlands electricity.
+        /// </summary>
+		Midlands_Electricity = 14,
+        /// <summary>
+        /// The northern electricity.
+        /// </summary>
+		Northern_Electricity = 15,
+        /// <summary>
+        /// The norweb.
+        /// </summary>
+		NORWEB = 16,
+        /// <summary>
+        /// The scottish hydro electric.
+        /// </summary>
+		Scottish_Hydro_Electric = 17,
+        /// <summary>
+        /// The scottish power.
+        /// </summary>
+		Scottish_Power = 18,
+        /// <summary>
+        /// The seeboard.
+        /// </summary>
+		SEEBOARD = 19,
+        /// <summary>
+        /// The southern electric.
+        /// </summary>
+		Southern_Electric = 20,
+        /// <summary>
+        /// The swalec.
+        /// </summary>
+		SWALEC = 21,
+        /// <summary>
+        /// The south western electricity.
+        /// </summary>
+		South_Western_Electricity = 22,
+        /// <summary>
+        /// The yorkshire electricity.
+        /// </summary>
+		Yorkshire_Electricity = 23,
         //TRANSCO = TR
     }
 
